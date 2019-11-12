@@ -1,0 +1,36 @@
+<%- include("partials/head", {title: "HammerTime", files: ["show.css"]})%>
+<%- include("partials/navbar") %>
+
+
+<div class="container-fluid">
+	<div class="row">
+		
+	</div>
+	<div class="row">
+		<div class="col col-6">
+			<% if(typeof(listing.pictures) !== undefined) { 
+				listing.pictures.forEach((picture) => { %>
+				<img src="/images/db/<%= picture %>" />
+			<% })}; %>	
+		</div>
+		<div class="col col-6">
+			<div class="row">
+				<h1><%= listing.title %></h1>
+			</div>
+			<div class="row">
+				<p><%= listing.bid %></p>
+			</div>
+			<div class="row">
+				<p><%= listing.description %></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<%- include("partials/footer") %>
+
+</body>
+</html>

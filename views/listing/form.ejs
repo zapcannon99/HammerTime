@@ -1,0 +1,58 @@
+<%- include("partials/head", {title: "HammerTime", files: ['']})%>
+<%- include("partials/navbar") %>
+
+
+<h1>New </h1>
+
+<form action="/listings" method="post" enctype="multipart/form-data">
+	<div class="form-group">
+		<label for="title">Title: </label>
+		<input type="text" class="form-control" name="title" />
+		<div>
+			<label for="condition">Condition: </label>
+			<select class="form-control" id="condition" name="condition">
+				<option value="new">New</option>
+				<option value="like new">Like New</option>
+				<option value="used">Used</option>
+				<option value="scrap">Scrap</option>
+			</select>
+			<label for="description">Description</label>
+			<textarea class="form-control" name="description" ></textarea>
+		</div>
+
+		<label for="pictures">Upload Pictures: </label>
+		<input type="file" class="form-control-file" name="pictures" multiple="multiple" />
+
+		<div>
+			<label for="bidStart">Starting Bid: </label>
+			<input type="text" class="form-control" name="bidStart" />
+
+			<label for="durationDays">Duration in days</label>
+			<input id="days" name="durationDays" value=0 size=3/>
+		</div>
+
+		<div>
+			<label for="shippingCarrier">Shipping Carrier: </label>
+			<select class="form-control" id="shippingCarrier">
+				<option value="usps">USPS</option>
+				<option value="ups">UPS</option>
+				<option value="fedex">Fedex</option>
+			</select>
+			<label for="shippingSpeed">Shipping Type: </label>
+			<select class="form-control" id="shippingCarrier">
+				<option value="night">Overnight</option>
+				<option value="air">2-3 Day Air</option>
+				<option value="ground">Ground</option>
+			</select>
+		</div>
+		<div>
+			<input type="submit" value="upload" name="submit" />
+		</div>
+	</div>
+</form>
+
+<%- include("partials/footer") %>
+<script src=""></script>
+
+</body>
+</html>
