@@ -8,13 +8,13 @@ router.get('/', function (req, res) {
 });
 
 router.get('/register', function(req, res) {
-	res.render('register', { });
+	res.render('user/register', { });
 });
 
 router.post('/register', function(req, res) {
 	Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
 		if (err) {
-			return res.render("register", {info: "Sorry. That username already exists. Try again."});
+			return res.render("user/register", {info: "Sorry. That username already exists. Try again."});
 		}
 
 		passport.authenticate('local')(req, res, function () {
@@ -24,14 +24,14 @@ router.post('/register', function(req, res) {
 });
 
 router.get('/login', function(req, res) {
-	res.render('login', { user : req.user });
+	res.render('user/login', { user : req.user });
 });
 
 router.post('/login', passport.authenticate('local'), function(req, res) {
 	if(req.isAuthenticated()) {
 		res.redirect('/');
 	} else {
-		return res.render("login", {info: "Please input credentials again."});
+		return res.render("user/login", {info: "Please input credentials again."});
 	}
 });
 
