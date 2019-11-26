@@ -27,8 +27,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/listings', function(req, res, next){
-	res.render('index', {title: 'HammerTime!'});
-});
+  db.get('listings').find({}).then(
+    function(result){
+    res.render('index', {title: 'HammerTime?', listings: result});//this is how things get passed
+    });
+	});
 
 router.get('/listings/new', function(req, res, next){
 	res.render('listing/form');
@@ -45,7 +48,7 @@ router.get('/listings/:id', function(req, res, next){
 	} else {
 		res.locals.listing = req.listing
 		res.render('listing/show');
-	}	
+	}
 });
 
 router.post('/listings/', upload.array('pictures', 12), function(req, res, next){

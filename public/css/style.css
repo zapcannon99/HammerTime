@@ -1,8 +1,56 @@
 body {
   padding-top: 56px;
+  overflow-y:: auto;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
 }
+
+.flex-across{
+display: flex;
+flex-wrap: wrap;
+justify-content: flex-start;
+}
+
+.flex-down{
+  display: flex;
+  flex-direction: column;
+}
+
+.card{
+  border-radius:40px;
+  background-position: left top;
+  width: 175px;
+  height: 175px;
+}
+
+/* Container holding the image and the text */
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+  padding-left:0;
+  padding-right:0;
+  margin-left:10px;
+  margin-right:0;
+  margin-bottom:10px;
+}
+
+/* Top left text */
+.top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+}
+
+/* Top right text */
+.top-right {
+  position: absolute;
+  top: 8px;
+  right: 18px;
+}
+
+.grow { transition: all .2s ease-in-out; }
+.grow:hover { transform: scale(1.1); }
