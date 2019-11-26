@@ -2,10 +2,10 @@ var express = require('express');
 var multer = require("multer");
 var monk = require("monk");
 var mv = require('mv');
-var globals = require("../globals/globals")
+var globals = require("../../globals/globals")
 var router = express.Router();
 
-const __image_db_path = -__dirname + '/../public/images/db/'
+const __image_db_path = __dirname + '/../../public/images/db/'
 
 var storage =   multer.diskStorage({
   destination: function (req, file, callback) {

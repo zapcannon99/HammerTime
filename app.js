@@ -18,7 +18,8 @@ var session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var imageRouter = require('./routes/images')
+var imageRouter = require('./routes/api/images');
+var apiUsersRouter = require('./routes/api/users');
 
 var app = express();
 
@@ -57,8 +58,10 @@ app.use(methodOverride("_method"));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/images', imageRouter);
+app.use('/api/users', apiUsersRouter);
 
-
+// mongoose db connection
+mongoose.connect('mongodb://localhost:27017/HammerTime');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

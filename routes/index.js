@@ -30,7 +30,7 @@ router.get('/', function(req, res, next) {
 router.get('/listings', function(req, res, next){
 	db.get('listings').find({})
 	.then((result) => {
-    	res.render('index', {title: 'HammerTime?', listings: result});//this is how things get passed
+    	res.render('index', {title: 'HammerTime?', listings: result, user: req.user});//this is how things get passed
     }).then(() => db.close());
 });
 
@@ -45,10 +45,10 @@ router.get('/listings/:id', function(req, res, next){
 		var collection = db.get("listings");
 
 		collection.findOne({_id: monk.id(req.params.id)})
-		.then((doc) => res.render('listing/show', {listing: doc}));
+		.then((doc) => res.render('listing/show', {listing: doc, user: req.user}));
 	} else {
 		res.locals.listing = req.listing
-		res.render('listing/show');
+		res.render('listing/show', {user: req.user});
 	}
 });
 
@@ -82,7 +82,7 @@ router.get('/listings/:id/edit', globals.checkOwnership, globals.checkAuthentica
 
 	collection.findOne({_id: monk.id(req.params.id)})
 	.then((doc) => {
-		res.render('listing/edit', {listing: doc, test: "hi"});
+		res.render('listing/edit', {listing: doc, test: "hi", user: req.user});
 	});
 	
 	

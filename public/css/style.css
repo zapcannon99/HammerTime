@@ -8,6 +8,8 @@ a {
   color: #00B7FF;
 }
 
+
+
 .flex-across{
 display: flex;
 flex-wrap: wrap;
@@ -30,7 +32,7 @@ justify-content: flex-start;
 .container {
   position: relative;
   text-align: center;
-  color: white;
+  /* color: white; */
   padding-left:0;
   padding-right:0;
   margin-left:10px;
