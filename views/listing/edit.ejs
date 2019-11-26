@@ -1,0 +1,80 @@
+<%- include("partials/head", {title: "HammerTime", files: ["show.css"]})%>
+<%- include("partials/navbar") %>
+
+
+<h1>New </h1>
+
+<form action="javascript:void(0);" method="post" enctype="multipart/form-data">
+	<div class="form-group">
+		<label for="title">Title: </label>
+		<input id="title" type="text" class="form-control" name="title" value="<%= listing.title %>" />
+		<div>
+			<label for="condition">Condition: </label>
+			<select id="condition" class="form-control" id="condition" name="condition">
+				<option value="new" <%= listing.condition == "new" ? "selected" : "" %> >New</option>
+				<option value="like new" <%= listing.condition == "like new" ? "selected" : "" %> >Like New</option>
+				<option value="used" <%= listing.condition == "used" ? "selected" : "" %> >Used</option>
+				<option value="scrap" <%= listing.condition == "scrap" ? "selected" : "" %> >Scrap</option>
+			</select>
+			<label for="description">Description</label>
+			<textarea id="description" class="form-control" name="description"><%= listing.description %></textarea>
+		</div>
+		<div class="container">
+			<div class="row">
+				<h3>Photos</h3>
+			</div>
+			<div id="photos" class="row">
+				<% if(typeof(listing.pictures) !== undefined) { 
+					listing.pictures.forEach((picture) => { %>
+					<div id="<%= picture %>" class="col-4 photo">
+						<div class="row">
+							<img src="/images/db/<%= picture %>" alt="<%= picture %>" />
+						</div>
+						<div class="row">
+							<button class="btn btn-danger photo-remove" value="<%= picture %>">Remove</button>
+						</div>
+					</div>
+				<% })}; %>
+
+			</div>
+		</div>
+<!-- After the bidding starts, the bid and duration shouldn't be changed. Instead, one should be able to cancel the bid
+		<label for="pictures">Upload Pictures: </label>
+		<input id="pictures" type="file" class="form-control-file" name="pictures" multiple="multiple" />
+
+		<div>
+			<label for="bidStart">Starting Bid: </label>
+			<input id="bidStart" type="text" class="form-control" name="bidStart" />
+
+			<label for="durationDays">Duration in days</label>
+			<input id="days" name="durationDays" value=0 size=3/>
+		</div>
+-->
+<!--
+		<div>
+			<label for="shippingCarrier">Shipping Carrier: </label>
+			<select id="shippingCarrier" class="form-control" name="shippingCarrier">
+				<option value="usps">USPS</option>
+				<option value="ups">UPS</option>
+				<option value="fedex">Fedex</option>
+			</select>
+			<label for="shippingSpeed">Shipping Type: </label>
+			<select id="shippingSpeed" class="form-control" name="shippingSpeed">
+				<option value="night">Overnight</option>
+				<option value="air">2-3 Day Air</option>
+				<option value="ground">Ground</option>
+			</select>
+		</div>
+-->
+		<div>
+			<input id="submit" type="submit" value="<%=listing._id%>" name="submit" />
+		</div>
+	</div>
+</form>
+<p id="ba">
+</p>
+
+<%- include("partials/footer") %>
+<script src="/js/edit.js"></script>
+</body>
+</html>
