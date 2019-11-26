@@ -1,0 +1,9 @@
+.nav-link{
+  margin-right:10px;
+}
+
+.flex-across{
+display: flex;
+flex-direction:row;
+flex-wrap: wrap;
+}
