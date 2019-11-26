@@ -1,5 +1,5 @@
-<%- include("partials/head", {title: "HammerTime", files: ["show.css"]})%>
-<%- include("partials/navbar") %>
+<%- include("../partials/head", {title: "HammerTime", files: ["show.css"]})%>
+<%- include("../partials/navbar") %>
 
 
 <div class="container-fluid">
@@ -26,7 +26,12 @@
 		</div>
 	</div>
 </div>
-
+<div>
+	<a href="/listings/<%= listing._id %>/edit"><button type="submit" class="btn btn-warning" name="action" value="edit">Edit</button></a>
+</div>
+<div>
+	<a href="/listings/<%= listing._id %>?_method=DELETE"><button type="submit" class="btn btn-danger" name="action" value="edit">Delete</button></a>
+</div>
 
 
 

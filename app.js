@@ -1,43 +1,64 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+var methodOverride = require('method-override')
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var methodOverride = require('method-override')
+
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var session = require('express-session');
 
 // db connection
-var monk = require('monk');
-var db = monk('localhost:27017/HammerTime');
+// var monk = require('monk');
+// var db = monk('localhost:27017/HammerTime');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var imageRouter = require('./routes/images')
 
 var app = express();
 
 // view engine setup
-app.set('views', [path.join(__dirname, 'views'), 
-					path.join(__dirname, 'views/listing'),
-					path.join(__dirname, 'views/partials'),
-					path.join(__dirname, 'views/user')]
-					);
+app.set('views', [
+	path.join(__dirname, 'views'),
+	path.join(__dirname, 'views/listing'),
+	path.join(__dirname, 'views/partials'),
+	path.join(__dirname, 'views/user')
+	]);
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({ secret: 'this-is-a-secret-token' }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+var Account = require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // allow db access to all routes
-app.use(function(req, res, next){
-	req.db = db;
-	next();
-});
+// app.use(function(req, res, next){
+// 	req.db = db;
+// 	next();
+// });
 
 app.use(methodOverride("_method"));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api/images', imageRouter);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
