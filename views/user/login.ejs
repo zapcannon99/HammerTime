@@ -1,0 +1,31 @@
+<%- include("partials/head", {title: "HammerTime", files: ['']})%>
+<%- include("partials/navbar") %>
+
+
+<h1>Login</h1>
+
+<%= typeof(info) !== "undefined" ? info : "" %>
+
+<form action="/users/login" method="POST">
+	<div class="form-group">
+		<div class="row">
+			<label for="title">Username: </label>
+			<input type="text" class="form-control" name="username" placeholder="Please enter your username" />
+		</div>
+		<div class="row">
+			<label for="image">Password: </label>
+			<input type="password" class="form-control" name="password" placeholder="Please enter your password" />
+		</div>
+		<div class="row">
+			<input type="submit" value="login" name="submit" />
+			&nbsp;
+			<a href="/"><button class="btn">Cancel</button></a>
+		</div>
+	</div>
+</form>
+
+<%- include("partials/footer") %>
+<script src=""></script>
+
+</body>
+</html>
