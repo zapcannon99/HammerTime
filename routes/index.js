@@ -8,14 +8,14 @@ var router = express.Router();
 const __image_db_path = -__dirname + '/../public/images/db/'
 
 var storage =   multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, __image_db_path);
-  },
-  filename: function (req, file, callback) {
-  	var nameparts = file.originalname.split('.');
-  	var filetype = nameparts[nameparts.length - 1];
-  	callback(null, file.fieldname + '-' + Date.now() + '.' + filetype);
-  }
+	destination: function (req, file, callback) {
+		callback(null, __image_db_path);
+	},
+	filename: function (req, file, callback) {
+		var nameparts = file.originalname.split('.');
+		var filetype = nameparts[nameparts.length - 1];
+		callback(null, file.fieldname + '-' + Date.now() + '.' + filetype);
+	}
 });
 var upload = multer({ storage : storage});
 
@@ -28,11 +28,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/listings', function(req, res, next){
-  db.get('listings').find({}).then(
-    function(result){
-    res.render('index', {title: 'HammerTime?', listings: result});//this is how things get passed
-    });
-	});
+	db.get('listings').find({})
+	.then((result) => {
+    	res.render('index', {title: 'HammerTime?', listings: result});//this is how things get passed
+    }).then(() => db.close());
+});
 
 router.get('/listings/new', globals.checkAuthentication, function(req, res, next){
 	res.render('listing/form');

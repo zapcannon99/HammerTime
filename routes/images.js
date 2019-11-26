@@ -35,7 +35,7 @@ function checkAuthentication(req,res,next){
 }
 
 // routes for listings ---------------------------------------
-router.get('/:id', checkOwnership, checkAuthentication, function(req, res, next){
+router.get('/:id', globals.checkOwnership, globals.checkAuthentication, function(req, res, next){
 	// grab the listing with id id
 	if(typeof(req.listing) == "undefined"){
 		console.log(req.params.id);
@@ -49,7 +49,7 @@ router.get('/:id', checkOwnership, checkAuthentication, function(req, res, next)
 	}	
 });
 
-router.post('/', checkAuthentication, upload.single('image'), function(req, res, next){
+router.post('/', globals.checkAuthentication, upload.single('image'), function(req, res, next){
 	var pictures = req.files.map(f => f.filename);
 
 	var listing = {
@@ -72,7 +72,7 @@ router.post('/', checkAuthentication, upload.single('image'), function(req, res,
 	}).then(() => db.close());
 });
 
-router.delete('/:id', checkAuthentication, function(req, res, next){
+router.delete('/:id', globals.checkAuthentication, function(req, res, next){
 	var pictures = req.files.map(f => f.filename);
 	
 	updates = {
