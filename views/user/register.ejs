@@ -4,20 +4,22 @@
 
 <h1>Register</h1>
 
-<%= typeof(info) !== "undefined" ? "<p>" + info + "</p>" :  "" %>
+<% if(typeof(info) != "undefined") { %>
+	<p><%= info %></p>
+<% } %>
 
 <form action="/users/register" method="POST">
 	<div class="form-group">
 		<div class="row">
-			<label for="title">Username: </label>
-			<input type="text" class="form-control" name="username" placeholder="Please enter your username" />
+			<label for="username">Username: </label>
+			<input id="username" type="text" class="form-control" name="username" placeholder="Please enter your username" />
 		</div>
 		<div class="row">
-			<label for="image">Password: </label>
-			<input type="password" class="form-control" name="password" placeholder="Please enter your password" />
+			<label for="password">Password: </label>
+			<input id="password" type="password" class="form-control" name="password" placeholder="Please enter your password" />
 		</div>
 		<div class="row">
-			<input type="submit" value="register" name="submit" />
+			<input type="submit" value="register" name="register" />
 			&nbsp;
 			<a href="/"><button class="btn">Cancel</button></a>
 		</div>
@@ -25,7 +27,7 @@
 </form>
 
 <%- include("partials/footer") %>
-<script src=""></script>
+<script src="/js/register.js"></script>
 
 </body>
 </html>
