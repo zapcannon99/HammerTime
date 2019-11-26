@@ -1,4 +1,4 @@
 
-db/journal/WiredTigerPreplog.0000000002
-db/journal/WiredTigerPreplog.0000000001
-db/journal/WiredTigerLog.0000000002
+db/
+node_modules/
+
