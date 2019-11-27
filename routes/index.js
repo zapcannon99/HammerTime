@@ -38,7 +38,10 @@ router.get('/listings', function(req, res, next){
 	} else {
 		collection.find()
 		.then((docs) => {
-			res.locals.listings = {listings: docs, bids: undefined, user: req.user}
+			console.log(req.user);
+			res.locals.listings = docs;
+			res.locals.bids = undefined;
+			res.locals.user = req.user;
 			res.render('index');
 		})
 	}
@@ -135,8 +138,7 @@ router.put('/listings/:id', globals.checkOwnership, globals.checkAuthentication,
 		title: req.body.title,
 		condition: req.body.condition,
 		description: req.body.description,
-		bid: req.body.bidStart,
-		duration_days: req.body.duration_days,
+		endTime: req.body.endTime
 	}
 
 	var collection = db.get('listings');
