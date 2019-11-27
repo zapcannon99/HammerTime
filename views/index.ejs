@@ -1,6 +1,34 @@
 <%- include("partials/head", {title: "HammerTime", css: ['index.css','navbar.css']})%>
 <%- include("partials/navbar") %>
 
+<h2>Search Here!</h2>
+<div class="container">
+	<form action="/videos">
+		<div class="row">
+			<div class="col-9">
+				<input style="width: 100%" name="query" type="search" placeholder="Search for a video by title. You can filter by genre with the drop down on the right" value=<%= query%>>
+			</div>
+			<div class="col-2">
+				<select class="form-control" id="condition" name="category">
+					<option value="">Filter</option>
+					<% var categories = ['Apparel', 'Beauty', 'Books', 'Camera', 'Cell Phones', 'Collectables', 'Jewelry', 'Fine Art', 'Handmade', 'Health', 'Music', 'Music Instruments', 'Office', 'Outdoors', 'Software', 'Video Games', 'Board Games', 'Toys', 'Sports', 'Tools', 'Videos']; 
+					categories.sort();
+					categories.forEach((category) => {
+						var selected = "";
+						if(category == filter) {
+							selected = "selected";
+						} %>
+						<option value="<%= category %>" <%= selected %>><%= category %></option>
+					<% }); %>
+				</select>
+			</div>
+			<div class="col-1">
+				<input type="submit" class="btn btn-success" value="search">
+			</div>
+		</div>
+	</form>
+</div>
+
 <div align="center">
   <div class = "flex-down no-top" style="padding:10px; background-color:#cccccc; border:2px solid black; border-radius:25px;margin-bottom:10px">
     <div class = "heading">My Bids:</div>

@@ -8,9 +8,23 @@
 	<div class="form-group">
 		<label for="title">Title: </label>
 		<input type="text" class="form-control" name="title" />
+
+		<div>
+			<label for="category">Category: </label>
+			<select class="form-control" id="category" name="category">
+				<option></option>
+				<% var categories = ['Apparel', 'Beauty', 'Books', 'Camera', 'Cell Phones', 'Collectables', 'Jewelry', 'Fine Art', 'Handmade', 'Health', 'Music', 'Music Instruments', 'Office', 'Outdoors', 'Software', 'Video Games', 'Board Games', 'Toys', 'Sports', 'Tools', 'Videos']; 
+				categories.sort();
+				categories.forEach((category) => { %>
+					<option value="<%= category %>"><%= category %></option>
+				<% }) %>
+			</select>
+		</div>
+		
 		<div>
 			<label for="condition">Condition: </label>
 			<select class="form-control" id="condition" name="condition">
+				<option></option>
 				<option value="new">New</option>
 				<option value="like new">Like New</option>
 				<option value="used">Used</option>
@@ -25,10 +39,10 @@
 
 		<div>
 			<label for="bidStart">Starting Bid: </label>
-			<input type="text" class="form-control" name="bidStart" />
+			<input type="number" class="form-control" name="bidStart" />
 
 			<label for="durationDays">Duration in days</label>
-			<input id="days" name="durationDays" value=0 size=3/>
+			<input type="number" id="days" name="durationDays" value=0 size=3/>
 		</div>
 
 		<div>
@@ -44,6 +58,8 @@
 				<option value="air">2-3 Day Air</option>
 				<option value="ground">Ground</option>
 			</select>
+			<label for="shippingFee">Shipping Fee: </label>
+			<input type="number" class="form-control" id="shippingFee" name="shippingFee" />
 		</div>
 		<div>
 			<input type="submit" value="upload" name="submit" />
