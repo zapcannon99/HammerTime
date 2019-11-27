@@ -28,34 +28,51 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/listings', function(req, res, next){
-	var search = {};
-
-	if(req.query.query != ""){
-		console.log("Query: " + req.query.query);
-		var replace = req.query.query;
-		var re = new RegExp(replace,"g");
-		search.title = re;
-	}
-
-	if(req.query.category != ""){
-		console.log("Category search: " + req.query.category);
-		search.category = req.query.category;
-	}
-
 	var collection = db.get("listings");
 
-    if(req.query.query == undefined && req.query.category == undefined) {
+	if(req.user == undefined) {
 		collection.find()
 		.then((docs) => {
-			res.render('index', {title: 'HammerTime', listings: docs, user: req.user, query: "", filter: ""});
+			res.render('index', {listings: docs, bids: undefined, user: undefined});
 		}).then(() => db.close());
 	} else {
-		collection.find(search)
+		collection.find()
 		.then((docs) => {
-			res.render('index', {title: 'HammerTime', listings: docs, user: req.user, query: req.query.query, filter: req.query.category});
-		}).then(() => db.close());
+			res.locals.listings = {listings: docs, bids: undefined, user: req.user}
+			res.render('index');
+		})
 	}
 });
+
+// router.get('/listings/search', function(req, res, next){
+// 	var search = {};
+
+// 	if(req.query.query != ""){
+// 		console.log("Query: " + req.query.query);
+// 		var replace = req.query.query;
+// 		var re = new RegExp(replace,"g");
+// 		search.title = re;
+// 	}
+
+// 	if(req.query.category != ""){
+// 		console.log("Category search: " + req.query.category);
+// 		search.category = req.query.category;
+// 	}
+
+// 	var collection = db.get("listings");
+
+//     if(req.query.query == undefined && req.query.category == undefined) {
+// 		collection.find()
+// 		.then((docs) => {
+// 			res.render('index', {title: 'HammerTime', listings: docs, user: req.user, query: "", filter: ""});
+// 		}).then(() => db.close());
+// 	} else {
+// 		collection.find(search)
+// 		.then((docs) => {
+// 			res.render('index', {title: 'HammerTime', listings: docs, user: req.user, query: req.query.query, filter: req.query.category});
+// 		}).then(() => db.close());
+// 	}
+// });
 
 router.get('/listings/new', globals.checkAuthentication, function(req, res, next){
 	res.render('listing/form');
@@ -82,11 +99,11 @@ router.post('/listings', globals.checkAuthentication, upload.array('pictures', 1
 		title: req.body.title,
 		condition: req.body.condition,
 		description: req.body.description,
-		bid: req.body.bidtart,
-		duration_days: req.body.duration_days,
+		bidStart: req.body.bidStart,
+		endTime: req.body.endTime,
 		pictures: pictures,
 		user: req.user.username,
-		available: 1
+		deleted: 0
 	}
 
 	var collection = db.get("listings");
@@ -118,7 +135,7 @@ router.put('/listings/:id', globals.checkOwnership, globals.checkAuthentication,
 		title: req.body.title,
 		condition: req.body.condition,
 		description: req.body.description,
-		bid: req.body.bidtart,
+		bid: req.body.bidStart,
 		duration_days: req.body.duration_days,
 	}
 
