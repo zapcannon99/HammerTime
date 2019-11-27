@@ -20,37 +20,50 @@ flex-wrap: wrap;
 }
 
 .card{
-  border-radius:40px;
   background-position: left top;
-  width: 175px;
-  height: 175px;
+  border: 2px solid #555555;
+  width: 250px;
+  height: 300px;
+  margin:5px;
 }
 
-.card-holder{
-  border: 2px solid #555555;
+.card-image{
+  object-fit: contain;
+  width:246px;
+  height:250px;
 }
 
 .price{
+  font-size: 16pt;
   position: absolute;
   top: 8px;
-  right: 18px;
-  padding:1px;
+  right: 9px;
+  padding:5px;
   color:#555555;
-  border-radius:10px;
+  border-radius:15px;
   background-color:orange;
+  border: 2px solid #555555;
 }
 
-/* Container holding the image and the text */
-.listings-container {
-  position: relative;
-  text-align: center;
-  color: white;
-  padding-left:0;
-  padding-right:0;
-  margin-left:10px;
-  margin-right:0;
-  margin-bottom:10px;
+.title{
+  font-size: 14pt;
+
 }
 
-.grow { transition: all .2s ease-in-out; }
-.grow:hover { transform: scale(1.1); }
+.block-ellipsis {
+  font-weight: bold;
+  display: block;
+  display: -webkit-box;
+  max-width: 100%;
+  height: 50px;
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 1;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.grow { transition: all .07s ease-in-out; }
+.grow:hover { transform: scale(1.03); }
