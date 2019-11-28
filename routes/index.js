@@ -88,7 +88,15 @@ router.get('/listings/:id', function(req, res, next){
 		var collection = db.get("listings");
 
 		collection.findOne({_id: monk.id(req.params.id)})
-		.then((doc) => res.render('listing/show', {listing: doc, user: req.user}));
+		.then((doc) => {
+			var owned = false;
+			if(req.user){
+				if(req.user.username == doc.owner) {
+					owned = true;
+				}
+			}
+			res.render('listing/show', {listing: doc, user: req.user, owned: owned})
+		});
 	} else {
 		res.locals.listing = req.listing
 		res.render('listing/show', {user: req.user});
@@ -105,7 +113,8 @@ router.post('/listings', globals.checkAuthentication, upload.array('pictures', 1
 		bidStart: req.body.bidStart,
 		endTime: req.body.endTime,
 		pictures: pictures,
-		user: req.user.username,
+		owner: req.user.username,
+		bids: [],
 		deleted: 0
 	}
 

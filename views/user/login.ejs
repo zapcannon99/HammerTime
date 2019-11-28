@@ -4,7 +4,7 @@
 
 <h1>Login</h1>
 
-<%= typeof(info) !== "undefined" ? info : "" %>
+<%- typeof(warning) != "undefined" ? "<p id='warning' class='warning'>" + warning + "</p>" : "" %>
 
 <form action="/users/login" method="POST">
 	<div class="form-group">

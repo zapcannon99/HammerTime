@@ -24,14 +24,22 @@ router.post('/register', function(req, res) {
 });
 
 router.get('/login', function(req, res) {
+	if(req.session.warning != undefined){
+		res.locals.warning = req.session.warning;
+		req.session.warning = null;
+	}
+	console.log(res.locals.warning);
 	res.render('user/login', { user : req.user });
 });
 
-router.post('/login', passport.authenticate('local'), function(req, res) {
+router.get('/login/addwarning', function(req, res) {
+	req.session.warning = "Username or password incorrect.";
+	res.redirect('/users/login');
+});
+
+router.post('/login', passport.authenticate('local', {failureRedirect: '/users/login/addwarning'}), function(req, res) {
 	if(req.isAuthenticated()) {
 		res.redirect('/');
-	} else {
-		return res.render("user/login", {info: "Please input credentials again."});
 	}
 });
 

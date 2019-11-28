@@ -1,7 +1,7 @@
-<%- include("partials/head", {title: "HammerTime", css: ['index.css','navbar.css','searchbar.css']})%>
+<%- include("partials/head", {title: "HammerTime", css: ['index.css','searchbar.css']})%>
 <%- include("partials/navbar") %>
 
-<h2>Search Here!</h2>
+<!-- <h2>Search Here!</h2>
 <div class="container">
 	<form action="/videos">
 		<div class="row">
@@ -9,7 +9,7 @@
 				<input style="width: 100%" name="query" type="search" placeholder="Search for a video by title. You can filter by genre with the drop down on the right">
 			</div>
 			<div class="col-2">
-				<select class="form-control" id="condition" name="category">
+				<select class="form-control" id="category" name="category">
 					<option value="">Filter</option>
 					<% var categories = ['Apparel', 'Beauty', 'Books', 'Camera', 'Cell Phones', 'Collectables', 'Jewelry', 'Fine Art', 'Handmade', 'Health', 'Music', 'Music Instruments', 'Office', 'Outdoors', 'Software', 'Video Games', 'Board Games', 'Toys', 'Sports', 'Tools', 'Videos']; 
 					categories.sort();
@@ -23,7 +23,7 @@
 			</div>
 		</div>
 	</form>
-</div>
+</div> -->
 
 <div align="center">
   <img class="logo" src="./images/logo.png"></img>
@@ -40,7 +40,7 @@
         <a href="/listings/<%= listing._id %>"><span style="position:absolute; width:100%; height:100%; top:0; left: 0; z-index: 10;"></span></a>
         <img class = "card-image" src="./images/db/<%= listing.pictures[0] %>">
         <div class="block-ellipsis"><%= listing.title %></div>
-        <div class="price"><%= "$"+listing.bid %></div>
+        <div class="price"><strong>$<%= listing.bids.length > 0 ? listing.lastBid : listing.bidStart %></strong></div>
       </div>
     <% })} %>
     </div>
@@ -53,7 +53,7 @@
       <div class="listings-container card grow">
         <a href="/listings/<%= listing._id %>"><span style="position:absolute; width:100%; height:100%; top:0; left: 0; z-index: 10;"></span></a>
         <img class = "card card-holder" src="./images/db/<%= listing.pictures[0] %>">
-        <div class="price"><strong><%= "$"+listing.bid %></strong></div>
+        <div class="price"><strong>$<%= listing.bids.length > 0 ? listing.lastBid : listing.bidStart %></strong></div>
       </div>
     <% })} %>
     </div>
