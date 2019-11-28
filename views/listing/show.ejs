@@ -23,6 +23,11 @@
 			<div class="row">
 				<p><%= listing.description %></p>
 			</div>
+			<% if(user) { %>
+				<a href='/users/login'><p>Sign in to start HammerTime!</p></a>
+			<% } else if(user && owned){ %>
+				
+			<% } %>
 			<% if(owned) { %>
 				<div class="row">
 					<a href="/listings/<%= listing._id %>/edit"><button type="submit" class="btn btn-warning" name="action" value="edit">Edit</button></a>

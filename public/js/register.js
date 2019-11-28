@@ -13,6 +13,7 @@ function checkUsername(event) {
 			if(data.available == 0){
 				if($('#warning').length) {
 					$('#warning').text("Username already taken!");
+					return true;
 				} else {
 					$("form").prepend("<p id='warning'>Username already taken!</p>");
 				}
@@ -56,17 +57,16 @@ $(document).ready(function() {
 	$("form").submit(function(event) {
 		var valid = true;
 
-		if($("#username").val() == "" || !checkUsername) {
+		if(!checkUsername) {
 			valid = false;
 		}
 
-		if($("#password").val() == "" || !checkPassword) {
+		if(!checkPassword) {
 			valid = false;
 		}
 		
 		if(valid) {
-			console.log('yolo');
-			// return;
+			return;
 		}
 		event.preventDefault();
 	});

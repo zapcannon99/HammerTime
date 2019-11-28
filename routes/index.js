@@ -98,6 +98,7 @@ router.get('/listings/:id', function(req, res, next){
 			res.render('listing/show', {listing: doc, user: req.user, owned: owned})
 		});
 	} else {
+		// I feel like this else will never be accessed, so I don't know why I have it -JY
 		res.locals.listing = req.listing
 		res.render('listing/show', {user: req.user});
 	}
