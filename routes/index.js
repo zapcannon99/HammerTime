@@ -28,23 +28,16 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/listings', function(req, res, next){
+	console.log(req);
 	var collection = db.get("listings");
-
-	if(req.user == undefined) {
-		collection.find()
-		.then((docs) => {
-			res.render('index', {listings: docs, bids: undefined, user: undefined});
-		}).then(() => db.close());
-	} else {
-		collection.find()
-		.then((docs) => {
-			console.log(req.user);
-			res.locals.listings = docs;
-			res.locals.bids = undefined;
-			res.locals.user = req.user;
-			res.render('index');
-		})
-	}
+	collection.find()
+	.then((docs) => {
+		res.locals.listings = docs
+		res.locals.bids = undefined;
+		res.locals.user = req.user;
+		res.locals.page = 1;
+		res.render('index');
+	})
 });
 
 // router.get('/listings/search', function(req, res, next){
@@ -137,13 +130,13 @@ router.get('/listings/:id/edit', globals.checkOwnership, globals.checkAuthentica
 	.then((doc) => {
 		res.render('listing/edit', {listing: doc, test: "hi", user: req.user});
 	});
-	
-	
+
+
 });
 
 router.put('/listings/:id', globals.checkOwnership, globals.checkAuthentication, function(req, res, next){
 	var pictures = req.files.map(f => f.filename);
-	
+
 	updates = {
 		title: req.body.title,
 		condition: req.body.condition,
@@ -163,9 +156,9 @@ router.delete('/listings/:id', globals.checkOwnership, globals.checkAuthenticati
 	// Remember to do soft delete, not hard delete
 	var collection = db.get('listings');
 	collection.findOneAndUpdate({_id: monk.id(req.params.id)}, {$set: {available: 0}})
-	.then((updatedDoc) => { 
+	.then((updatedDoc) => {
 		res.locals.info = "Item removed from available listings.";
-		res.redirect('/'); 
+		res.redirect('/');
 	}).then(() => db.close());
 });
 
