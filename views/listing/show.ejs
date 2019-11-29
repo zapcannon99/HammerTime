@@ -22,11 +22,15 @@ data-listing="<%= JSON.stringify(listing) %>">
 		<div class="row">
 			<div class="title"><%= listing.title %></div>
 		</div>
-		<div class="row border-bottom">
+		<div class="row">
 			<div>Condition: <strong><%= listing.condition %></strong></div>
 		</div>
 
-		<h4>Current Bid: $<span id='currentBid'><%= currentBid %></span></h4>
+		<div class = "row border-bottom">
+			<div>
+				Current Bid: <strong id='currentBid'>$<%= currentBid %></strong>
+			</div>
+		</div>
 
 		<div class="desc row">
 			<p><%= listing.description %></p>
@@ -39,8 +43,8 @@ data-listing="<%= JSON.stringify(listing) %>">
 					<div class="flex-across">
 						<div id="border" class="bid-timer">
 							<div id="countdown" class="big hspace"></div>
-							<label for="newBid">Your bid: </label>
-							<input type='number' class='col' id='newBid' name='newBid' min=0 />
+							<div class="big"><strong>$</strong></div>
+							<input type='number' class='col form-control' id='newBid' name='newBid' min=0 />
 						</div>
 						<button id='submitBid' type='submit'><!--<img id="pic" class="picture-button grow" src="/images/bid.png"></img>--><i class="fa fa-gavel fa-3x" ></i></button>
 						<!-- <button id='submitBid' type='submit'><i class="fa fa-gavel" ></i></button> -->
