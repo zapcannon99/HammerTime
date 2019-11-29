@@ -10,22 +10,25 @@ $(document).ready(() => {
 		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
 		var elem = document.getElementById("countdown");
-		if(days > 0)
-		{
-			elem.innerHTML = days+" Days, "+hours+" Hours";
-		}else if(distance >= 0){
-			elem.innerHTML = (hours+"").padStart(2, '0')+":"+(minutes+"").padStart(2, '0')+":"+(seconds+"").padStart(2, '0');
-		}else{
-			elem.innerHTML = "SOLD";
-			$("#countdown").removeClass("yellow");
-			$("#countdown").addClass("red");
-			$("#bid").remove();
-			$("#pic").remove();
-			$("#money").remove();
-			$("#countdown").toggleClass("hspace");
-			$("#border").css("border", "2px solid red");
-			return true;
+		if(elem != null) {
+			if(days > 0)
+			{
+				elem.innerHTML = days+" Days, "+hours+" Hours";
+			}else if(distance >= 0){
+				elem.innerHTML = (hours+"").padStart(2, '0')+":"+(minutes+"").padStart(2, '0')+":"+(seconds+"").padStart(2, '0');
+			}else{
+				elem.innerHTML = "SOLD";
+				$("#countdown").removeClass("yellow");
+				$("#countdown").addClass("red");
+				$("#bid").remove();
+				$("#pic").remove();
+				$("#money").remove();
+				$("#countdown").toggleClass("hspace");
+				$("#border").css("border", "2px solid red");
+				return true;
+			}
 		}
+		
 
 		if(hours < 1)
 		{

@@ -14,12 +14,12 @@ exports.checkOwnership = function(req, res, next) {
 	var collection = db.get('listings');
 	collection.findOne({ _id: req.params.id })
 	.then((doc) => { 
-		var listingUsername = doc.user; 
+		var listingUsername = doc.owner; 
 		if(req.user.username == listingUsername){
 			next();
 		} else {
 			res.locals.warning = "No touching. Just look. (in other words, stop trying to be bad and just be content with looking.";
-			res.redirect(req.path);
+			res.redirect(req.header.referer);
 		}
 	}).then(() => db.close());
 }

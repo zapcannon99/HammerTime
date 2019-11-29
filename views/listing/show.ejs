@@ -42,7 +42,7 @@ data-listing="<%= JSON.stringify(listing) %>">
 							<label for="newBid">Your bid: </label>
 							<input type='number' class='col' id='newBid' name='newBid' min=0 />
 						</div>
-						<button id='submitBid' type='submit'><img id="pic" class="picture-button grow" src="/images/bid.png"></img><i class="fa fa-gavel fa-3x" ></i></button>
+						<button id='submitBid' type='submit'><!--<img id="pic" class="picture-button grow" src="/images/bid.png"></img>--><i class="fa fa-gavel fa-3x" ></i></button>
 						<!-- <button id='submitBid' type='submit'><i class="fa fa-gavel" ></i></button> -->
 					</div>
 				</div>
@@ -53,7 +53,7 @@ data-listing="<%= JSON.stringify(listing) %>">
 		</div> -->
 		<% if(owned) { %>
 			<div class="row">
-				<a href="/listings/<%= listing._id %>/edit"><button type="submit" class="btn btn-warning hspace" name="action" value="edit">Edit</button></a>
+				<a href="/listings/<%= listing._id %>/edit"><button type="button" class="btn btn-warning hspace" name="action" value="edit">Edit</button></a>
 				<form action="/listings/<%= listing._id %>?_method=DELETE" method="POST"><button type="submit" class="btn btn-danger" name="action" value="delete">Delete</button></form>
 			</div>
 		<% } %>

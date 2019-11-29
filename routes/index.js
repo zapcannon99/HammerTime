@@ -134,13 +134,12 @@ router.post('/listings', globals.checkAuthentication, upload.array('pictures', 1
 
 router.get('/listings/:id/edit', globals.checkOwnership, globals.checkAuthentication, function(req, res, next){
 	var collection = db.get("listings");
+	console.log('redirecting why?');
 
 	collection.findOne({_id: monk.id(req.params.id)})
 	.then((doc) => {
 		res.render('listing/edit', {listing: doc, test: "hi", user: req.user});
 	});
-
-
 });
 
 router.put('/listings/:id', globals.checkOwnership, globals.checkAuthentication, function(req, res, next){
