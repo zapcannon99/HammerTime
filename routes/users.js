@@ -28,7 +28,9 @@ router.get('/login', function(req, res) {
 		res.locals.warning = req.session.warning;
 		req.session.warning = null;
 	}
+	console.log(req.headers.referer);
 	console.log(res.locals.warning);
+	req.session.referer = req.headers.referer;
 	res.render('user/login', { user : req.user });
 });
 
@@ -39,7 +41,9 @@ router.get('/login/addwarning', function(req, res) {
 
 router.post('/login', passport.authenticate('local', {failureRedirect: '/users/login/addwarning'}), function(req, res) {
 	if(req.isAuthenticated()) {
-		res.redirect('/');
+		var lastVisitedPage = req.session.referer;
+		req.session.referer = null;
+		res.redirect(lastVisitedPage);
 	}
 });
 

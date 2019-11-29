@@ -20,6 +20,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var imageRouter = require('./routes/api/images');
 var apiUsersRouter = require('./routes/api/users');
+var apiBidsRouter = require('./routes/api/bids')
 
 var app = express();
 
@@ -59,6 +60,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/images', imageRouter);
 app.use('/api/users', apiUsersRouter);
+app.use('/api/bids', apiBidsRouter);
 
 // mongoose db connection
 mongoose.connect('mongodb://localhost:27017/HammerTime');

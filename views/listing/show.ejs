@@ -23,15 +23,25 @@
 			<div class="row">
 				<p><%= listing.description %></p>
 			</div>
-			<% if(user) { %>
+			<h4>Current Bid: $<span id='currentBid'><%= currentBid %></span></h4>
+			<% if(!user) { %>
 				<a href='/users/login'><p>Sign in to start HammerTime!</p></a>
-			<% } else if(user && owned){ %>
-				
+			<% } else if(user && !owned){ %>
+				<form id='biddingForm' action="javascript:void(0);">
+					<div class='row'>
+						<label for="newBid">Your bid: </label>
+						<input type='number' class='col' id='newBid' name='newBid' min=0 />
+						<button id='submitBid' type='submit'><i class="fa fa-gavel" ></i></button>
+					</div>
+				</form>
 			<% } %>
+			<div class="row">
+				<button id='test' class='btn'>Testing - Refresh</button>
+			</div>
 			<% if(owned) { %>
 				<div class="row">
 					<a href="/listings/<%= listing._id %>/edit"><button type="submit" class="btn btn-warning" name="action" value="edit">Edit</button></a>
-					<form action="/vlistingsideos/<%= listing._id %>?_method=DELETE" method="POST"><button type="submit" class="btn btn-danger" name="action" value="delete">Delete</button></form>
+					<form action="/listings/<%= listing._id %>?_method=DELETE" method="POST"><button type="submit" class="btn btn-danger" name="action" value="delete">Delete</button></form>
 				</div>
 			<% } %>
 		</div>
@@ -40,6 +50,11 @@
 
 
 <%- include("partials/footer") %>
+<script>
+	let listID = <%- JSON.stringify(listing._id) %>;
+	console.log(listID);
+</script>
+<script src="/js/show.js"></script>
 
 </body>
 </html>

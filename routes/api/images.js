@@ -22,18 +22,6 @@ var upload = multer({ storage : storage});
 var db_path = "localhost:27017/HammerTime";
 var db = monk(db_path);
 
-// Helper Functions for Authentication
-
-function checkAuthentication(req,res,next){
-	if(req.user) {
-		return next();
-	} else {
-		return res.status(401).json({
-			error: 'User not authenticated'
-		});
-	}
-}
-
 // routes for listings ---------------------------------------
 router.get('/:id', globals.checkOwnership, globals.checkAuthentication, function(req, res, next){
 	// grab the listing with id id

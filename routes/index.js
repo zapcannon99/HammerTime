@@ -88,15 +88,23 @@ router.get('/listings/:id', function(req, res, next){
 		var collection = db.get("listings");
 
 		collection.findOne({_id: monk.id(req.params.id)})
-		.then((doc) => {
+		.then((listing) => {
 			var owned = false;
 			if(req.user){
-				if(req.user.username == doc.owner) {
+				if(req.user.username == listing.owner) {
 					owned = true;
 				}
 			}
-			res.render('listing/show', {listing: doc, user: req.user, owned: owned})
-		});
+			if(listing.bids.length > 0) {
+				var lastBidID = listing.bids[listing.bids.length - 1];
+				db.get('bids').findOne({_id: monk.id(lastBidID)})
+				.then((bid) => {
+					res.render('listing/show', {listing: listing, user: req.user, owned: owned, currentBid: bid.amount});
+				})
+			} else {
+				res.render('listing/show', {listing: listing, user: req.user, owned: owned, currentBid: listing.bidStart})
+			}
+		}).then(() => db.close());
 	} else {
 		// I feel like this else will never be accessed, so I don't know why I have it -JY
 		res.locals.listing = req.listing
@@ -109,6 +117,7 @@ router.post('/listings', globals.checkAuthentication, upload.array('pictures', 1
 
 	var listing = {
 		title: req.body.title,
+		category: req.body.category,
 		condition: req.body.condition,
 		description: req.body.description,
 		bidStart: req.body.bidStart,
@@ -146,6 +155,7 @@ router.put('/listings/:id', globals.checkOwnership, globals.checkAuthentication,
 	
 	updates = {
 		title: req.body.title,
+		category: req.body.category,
 		condition: req.body.condition,
 		description: req.body.description,
 		endTime: req.body.endTime
