@@ -14,7 +14,6 @@ $(document).ready(() => {
 		{
 			if(match(listings[i].title, searchTerm))
 			{
-				console.log(category+" "+listings[i].category);
 				if(category == "" || category == listings[i].category)
 					filtered.push(listings[i]);
 			}

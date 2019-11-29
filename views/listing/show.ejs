@@ -40,21 +40,24 @@ data-listing="<%= JSON.stringify(listing) %>">
 		</div>
 		<% if(!user) { %>
 			<a href='/users/login'><p>Sign in to start HammerTime!</p></a>
-		<% } else if(user && !owned){ %>
+		<% } %>
 			<form id='biddingForm' action="javascript:void(0);">
 				<div class='row timer-row'>
 					<div class="flex-across">
 						<div id="border" class="bid-timer">
 							<div id="countdown" class="big hspace"></div>
+							<% if(user && !owned) {%>
 							<div class="big"><strong>$</strong></div>
 							<input type='number' class='col form-control' id='new-bid' name='newBid' min=0 />
+							<% } %>
 						</div>
+						<% if(user && !owned){ %>
 						<button id='submit-bid' type='submit'><!--<img id="pic" class="picture-button grow" src="/images/bid.png"></img>--><i class="fa fa-gavel fa-3x" ></i></button>
 						<!-- <button id='submitBid' type='submit'><i class="fa fa-gavel" ></i></button> -->
+						<% } %>
 					</div>
 				</div>
 			</form>
-		<% } %>
 		<!-- <div class="row">
 			<button id='test' class='btn'>Refresh</button>
 		</div> -->
