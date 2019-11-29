@@ -2,52 +2,76 @@
 <%- include("../partials/navbar") %>
 
 
-<div class="container-fluid">
-	<div class="row">
-		
-	</div>
-	<div class="row">
-		<div class="col col-6">
-			<% if(typeof(listing.pictures) !== undefined) { 
-				listing.pictures.forEach((picture) => { %>
-				<img src="/images/db/<%= picture %>" />
-			<% })}; %>	
-		</div>
-		<div class="col col-6">
-			<div class="row">
-				<h1><%= listing.title %></h1>
-			</div>
-			<div class="row">
-				<p><%= listing.bid %></p>
-			</div>
-			<div class="row">
-				<p><%= listing.description %></p>
-			</div>
-			<h4>Current Bid: $<span id='currentBid'><%= currentBid %></span></h4>
-			<% if(!user) { %>
-				<a href='/users/login'><p>Sign in to start HammerTime!</p></a>
-			<% } else if(user && !owned){ %>
-				<form id='biddingForm' action="javascript:void(0);">
-					<div class='row'>
-						<label for="newBid">Your bid: </label>
-						<input type='number' class='col' id='newBid' name='newBid' min=0 />
-						<button id='submitBid' type='submit'><i class="fa fa-gavel" ></i></button>
-					</div>
-				</form>
-			<% } %>
-			<div class="row">
-				<button id='test' class='btn'>Testing - Refresh</button>
-			</div>
-			<% if(owned) { %>
-				<div class="row">
-					<a href="/listings/<%= listing._id %>/edit"><button type="submit" class="btn btn-warning" name="action" value="edit">Edit</button></a>
-					<form action="/listings/<%= listing._id %>?_method=DELETE" method="POST"><button type="submit" class="btn btn-danger" name="action" value="delete">Delete</button></form>
-				</div>
-			<% } %>
-		</div>
-	</div>
+<div id="data" class="hidden"
+data-listing="<%= JSON.stringify(listing) %>">
 </div>
 
+<div class="row">
+	<div id="gallery" class="col col-5">
+		<img id="picture" class="display-img" src="/images/db/<%= listing.pictures[0] %>" />
+		<div id="gallery-nav">
+			<button id="previous" class="btn btn-primary">
+				<i class="fa fa-arrow-circle-left" style="font-size:18px"></i>
+			</button>
+			<button id="next" class="btn btn-primary">
+				<i class="fa fa-arrow-circle-right" style="font-size:18px"></i>
+			</button>
+		</div>
+	</div>
+	<div class="col col-7 parent border-left pad">
+		<div class="row">
+			<div class="title"><%= listing.title %></div>
+		</div>
+		<div class="row border-bottom">
+			<div>Condition: <strong><%= listing.condition %></strong></div>
+		</div>
+
+		<h4>Current Bid: $<span id='currentBid'><%= currentBid %></span></h4>
+
+		<div class="desc row">
+			<p><%= listing.description %></p>
+		</div>
+		<% if(!user) { %>
+			<a href='/users/login'><p>Sign in to start HammerTime!</p></a>
+		<% } else if(user && !owned){ %>
+			<form id='biddingForm' action="javascript:void(0);">
+				<div class='row timer-row'>
+					<div class="flex-across">
+						<div id="border" class="bid-timer">
+							<div id="countdown" class="big hspace"></div>
+							<label for="newBid">Your bid: </label>
+							<input type='number' class='col' id='newBid' name='newBid' min=0 />
+						</div>
+						<button id='submitBid' type='submit'><img id="pic" class="picture-button grow" src="/images/bid.png"></img><i class="fa fa-gavel fa-3x" ></i></button>
+						<!-- <button id='submitBid' type='submit'><i class="fa fa-gavel" ></i></button> -->
+					</div>
+				</div>
+			</form>
+		<% } %>
+		<!-- <div class="row">
+			<button id='test' class='btn'>Refresh</button>
+		</div> -->
+		<% if(owned) { %>
+			<div class="row">
+				<a href="/listings/<%= listing._id %>/edit"><button type="submit" class="btn btn-warning hspace" name="action" value="edit">Edit</button></a>
+				<form action="/listings/<%= listing._id %>?_method=DELETE" method="POST"><button type="submit" class="btn btn-danger" name="action" value="delete">Delete</button></form>
+			</div>
+		<% } %>
+
+
+<!-- 		<div class="row timer-row">
+			<div class="flex-across">
+				<div id="border" class="bid-timer">
+					<div id="countdown" class="big hspace"></div>
+					<div id="money" class="big">$</div>
+					<input id="bid" class="form-control big bid-input"></input>
+				</div>
+				<img id="pic" class="picture-button grow" src="/images/bid.png"></img>
+			</div>
+		</div>
+ -->
+	</div>
+</div>
 
 <%- include("partials/footer") %>
 <script>
@@ -55,6 +79,8 @@
 	console.log(listID);
 </script>
 <script src="/js/show.js"></script>
+<script src="/js/countdown.js"></script>
+<script src="/js/gallery.js"></script>
 
 </body>
 </html>
