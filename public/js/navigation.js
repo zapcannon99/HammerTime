@@ -12,10 +12,15 @@ $(document).ready(() => {
 		filtered = [];
 		for(var i = 0;i<listings.length;i++)
 		{
-			if(match(listings[i].title, searchTerm))
+			var now = Date.now();
+			var expire = Date.parse(listings[i].endTime);
+			if(now < expire)
 			{
-				if(category == "" || category == listings[i].category)
-					filtered.push(listings[i]);
+				if(match(listings[i].title, searchTerm))
+				{
+					if(category == "" || category == listings[i].category)
+						filtered.push(listings[i]);
+				}
 			}
 		}
 	}
@@ -81,6 +86,7 @@ $(document).ready(() => {
 		return $($.parseHTML(elem));
 	}
 
+	filter();
 	addElements();
 	updateDisabled();
 

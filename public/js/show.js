@@ -54,7 +54,6 @@ $(document).ready(function() {
 			method: "GET",
 			dataType: "json"
 		}).done((data) => {
-			console.log(data.currentBid);
 		});
 	});
 });

@@ -28,7 +28,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/listings', function(req, res, next){
-	console.log(req);
 	var collection = db.get("listings");
 	collection.find()
 	.then((docs) => {
@@ -40,36 +39,6 @@ router.get('/listings', function(req, res, next){
 	})
 });
 
-// router.get('/listings/search', function(req, res, next){
-// 	var search = {};
-
-// 	if(req.query.query != ""){
-// 		console.log("Query: " + req.query.query);
-// 		var replace = req.query.query;
-// 		var re = new RegExp(replace,"g");
-// 		search.title = re;
-// 	}
-
-// 	if(req.query.category != ""){
-// 		console.log("Category search: " + req.query.category);
-// 		search.category = req.query.category;
-// 	}
-
-// 	var collection = db.get("listings");
-
-//     if(req.query.query == undefined && req.query.category == undefined) {
-// 		collection.find()
-// 		.then((docs) => {
-// 			res.render('index', {title: 'HammerTime', listings: docs, user: req.user, query: "", filter: ""});
-// 		}).then(() => db.close());
-// 	} else {
-// 		collection.find(search)
-// 		.then((docs) => {
-// 			res.render('index', {title: 'HammerTime', listings: docs, user: req.user, query: req.query.query, filter: req.query.category});
-// 		}).then(() => db.close());
-// 	}
-// });
-
 router.get('/listings/new', globals.checkAuthentication, function(req, res, next){
 	res.render('listing/form');
 });
@@ -77,7 +46,6 @@ router.get('/listings/new', globals.checkAuthentication, function(req, res, next
 router.get('/listings/:id', function(req, res, next){
 	// grab the listing with id id
 	if(typeof(req.listing) == "undefined"){
-		console.log(req.params.id);
 		var collection = db.get("listings");
 
 		collection.findOne({_id: monk.id(req.params.id)})
@@ -124,7 +92,6 @@ router.post('/listings', globals.checkAuthentication, upload.array('pictures', 1
 	var collection = db.get("listings");
 	collection.insert(listing)
 	.then((doc) => {
-		console.log(doc._id + "inserted");
 		req.listing = doc;
 		res.redirect('/listings/' + doc._id);
 	}).catch((err) => {
@@ -134,7 +101,6 @@ router.post('/listings', globals.checkAuthentication, upload.array('pictures', 1
 
 router.get('/listings/:id/edit', globals.checkOwnership, globals.checkAuthentication, function(req, res, next){
 	var collection = db.get("listings");
-	console.log('redirecting why?');
 
 	collection.findOne({_id: monk.id(req.params.id)})
 	.then((doc) => {

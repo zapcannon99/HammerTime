@@ -9,7 +9,6 @@ function checkUsername(event) {
 			data: {username: $("#username").val()},
 			dataType: 'json',
 		}).done(function(data){
-			console.log(data);
 			if(data.available == 0){
 				if($('#warning').length) {
 					$('#warning').text("Username already taken!");
@@ -64,7 +63,7 @@ $(document).ready(function() {
 		if(!checkPassword) {
 			valid = false;
 		}
-		
+
 		if(valid) {
 			return;
 		}
