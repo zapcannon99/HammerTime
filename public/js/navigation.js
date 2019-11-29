@@ -7,13 +7,16 @@ $(document).ready(() => {
 	var filtered = JSON.parse(JSON.stringify(listings));
 
 	filter = function(){
+		var category = $("#condition").val();
 		var searchTerm = $("#search").val();
 		filtered = [];
 		for(var i = 0;i<listings.length;i++)
 		{
 			if(match(listings[i].title, searchTerm))
 			{
-				filtered.push(listings[i]);
+				console.log(category+" "+listings[i].category);
+				if(category == "" || category == listings[i].category)
+					filtered.push(listings[i]);
 			}
 		}
 	}
