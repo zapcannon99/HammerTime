@@ -28,15 +28,15 @@ $(document).ready(() => {
 				return true;
 			}
 		}
-		
 
-		if(hours < 1)
+
+		if(days < 1 && hours < 1)
 		{
 			$("#countdown").removeClass("red");
 			$("#countdown").addClass("yellow");
 		}
 
-		if(minutes <= 2)
+		if(days < 1 && hours < 1 &&minutes <= 2)
 		{
 			$("#countdown").removeClass("yellow");
 			$("#countdown").addClass("red");

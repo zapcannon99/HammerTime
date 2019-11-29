@@ -4,13 +4,13 @@ $(document).ready(function() {
 			// check if the submitted bid is higher before calling the api
 
 			var currentBid = parseFloat($('#currentBid').text());
-			var newBid = parseFloat($('#newBid').val());
+			var newBid = parseFloat($('#new-bid').val());
 
 			if(newBid > currentBid) {
 				$.ajax({
 					url: '/api/bids/submitBid',
 					method: "POST",
-					data: {bid: $('#newBid').val(), listID: listID},
+					data: {bid: $('#new-bid').val(), listID: listID},
 					dataType: 'json'
 				}).done(function(data) {
 					if(data.success){
