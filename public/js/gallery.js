@@ -1,7 +1,6 @@
 $(document).ready(() => {
 	var listing = JSON.parse(document.getElementById('data').dataset.listing);
 	var index = 0;
-	console.log(listing);
 
 	addPicture = function(index)
 	{
@@ -11,7 +10,6 @@ $(document).ready(() => {
 
 	makePicture = function(index)
 	{
-		console.log(index+" "+listing.pictures[index]);
 		return $($.parseHTML('<img id="picture" class="display-img" src="/images/db/' + listing.pictures[index] + '" />'));
 	}
 
