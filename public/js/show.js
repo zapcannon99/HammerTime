@@ -3,18 +3,18 @@ $(document).ready(function() {
 		$('#biddingForm').submit((event) => {
 			// check if the submitted bid is higher before calling the api
 
-			var currentBid = parseFloat($('#currentBid').text());
-			var newBid = parseFloat($('#newBid').val());
+			var currentBid = parseFloat($('#current-bid').text());
+			var newBid = parseFloat($('#new-bid').val());
 
 			if(newBid > currentBid) {
 				$.ajax({
 					url: '/api/bids/submitBid',
 					method: "POST",
-					data: {bid: $('#newBid').val(), listID: listID},
+					data: {bid: $('#new-bid').val(), listID: listID},
 					dataType: 'json'
 				}).done(function(data) {
 					if(data.success){
-						$('#currentBid').text(newBid);
+						$('#current-bid').text(newBid);
 						if($('#warning').length){
 							$('#warning').remove();
 						}
@@ -27,7 +27,7 @@ $(document).ready(function() {
 						if($('#success').length){
 							$('#success').remove();
 						}
-						$('#currentBid').text(data.currentBid);
+						$('#current-bid').text(data.currentBid);
 						if($('#warning').length) {
 							$('#warning').text("Sorry! Somebody just bid higher than you!");
 						} else {
