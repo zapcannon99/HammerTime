@@ -81,7 +81,7 @@ $(document).ready(() => {
 		elem += '<a href="/listings/'+listing._id+'"><span class="invisible-link"></span></a>\n';
 		elem += '<img class = "card-image" src="./images/db/'+listing.pictures[0]+'">\n';
 		elem += '<div class="block-ellipsis">'+listing.title+'</div>\n';
-		elem += '<div class="price"><strong>$'+(listing.bids.length > 0 ? listing.lastBid : listing.bidStart)+'</strong></div>\n';
+		elem += '<div class="price"><strong>$'+listing.currentBid+'</strong></div>\n';
 		elem += '</div>\n';
 		return $($.parseHTML(elem));
 	}

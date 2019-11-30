@@ -1,0 +1,28 @@
+<%- include("partials/head", {title: "HammerTime", files: [''], css: ['index.css','navbar.css']})%>
+<%- include("partials/navbar") %>
+
+
+<h1>Account</h1>
+
+<h2>Bidding History</h2>
+<table>
+	<tr>
+		<th>Date and Time</th>
+		<th>Listing Title</th>
+		<th>Amount</th>
+	</tr>
+	<% pastBids.forEach((bid) => { %>
+		<tr>
+			<td><%= bid.timestamp %></td>
+			<td><a href="/listings/<%= bid.listingID %>"><%= listings.find(element => element._id == bid.listingID).title %></a></td>
+			<td><%= bid.amount %></td>
+		</tr>
+	<% }); %>
+</table>
+
+<%- include("partials/footer") %>
+<script>
+</script>
+
+</body>
+</html>
