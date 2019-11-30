@@ -157,13 +157,34 @@ router.post('/listings', globals.checkAuthentication, upload.array('pictures', 1
 });
 
 router.get('/listings/:id/edit', globals.checkOwnership, globals.checkAuthentication, function(req, res, next){
-	var collection = db.get("listings");
-	console.log('redirecting why?');
+	// grab the listing with id id
+	if(typeof(req.listing) == "undefined"){
+		console.log(req.params.id);
+		var collection = db.get("listings");
 
-	collection.findOne({_id: monk.id(req.params.id)})
-	.then((doc) => {
-		res.render('listing/edit', {listing: doc, test: "hi", user: req.user});
-	});
+		collection.findOne({_id: monk.id(req.params.id)})
+		.then((listing) => {
+			var owned = false;
+			if(req.user){
+				if(req.user.username == listing.owner) {
+					owned = true;
+				}
+			}
+			if(listing.bids.length > 0) {
+				var lastBidID = listing.bids[listing.bids.length - 1];
+				db.get('bids').findOne({_id: monk.id(lastBidID)})
+				.then((bid) => {
+					res.render('listing/edit', {listing: listing, user: req.user, owned: owned, currentBid: bid.amount});
+				})
+			} else {
+				res.render('listing/edit', {listing: listing, user: req.user, owned: owned, currentBid: listing.bidStart})
+			}
+		});
+	} else {
+		// I feel like this else will never be accessed, so I don't know why I have it -JY
+		res.locals.listing = req.listing
+		res.render('listing/edit', {user: req.user});
+	}
 });
 
 router.put('/listings/:id', globals.checkOwnership, globals.checkAuthentication, function(req, res, next){

@@ -44,6 +44,9 @@ router.post('/submitBid', globals.checkAuthentication, function(req, res, next){
 			var insertedBid = await bids.insert({listingID: req.body.listID, username: req.user.username, amount: req.body.bid, timestamp: Date.now()}).then((bid) => {return bid;});
 			var bidID = insertedBid._id;
 			var listing = await listings.findOne({_id: monk.id(req.body.listID)}).then((listing) => {return listing;})
+			if(listing.endTime < Date.now()){
+				return res.json({sucess: false, info: "Sorry! You missed the cutoff time!", currentBid: currentBid	});
+			}
 			var pastBids = listing.bids;
 			pastBids.push(bidID);
 			listing = await listings.findOneAndUpdate({_id: monk.id(req.body.listID)}, {$set: {bids: pastBids}}).then((updatedDoc) => {console.log(updatedDoc)});

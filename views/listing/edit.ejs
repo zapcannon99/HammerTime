@@ -1,80 +1,96 @@
-<%- include("partials/head", {title: "HammerTime", files: ["show.css"]})%>
-<%- include("partials/navbar") %>
+<%- include("../partials/head", {title: "HammerTime", css: ["show.css"]})%>
+<%- include("../partials/navbar") %>
 
 
-<h1>New </h1>
+<div id="data" class="hidden"
+data-listing="<%= JSON.stringify(listing) %>">
+</div>
 
-<form action="javascript:void(0);" method="post" enctype="multipart/form-data">
-	<div class="form-group">
-		<label for="title">Title: </label>
-		<input id="title" type="text" class="form-control" name="title" value="<%= listing.title %>" />
-		<div>
-			<label for="condition">Condition: </label>
-			<select id="condition" class="form-control" id="condition" name="condition">
-				<option value="new" <%= listing.condition == "new" ? "selected" : "" %> >New</option>
-				<option value="like new" <%= listing.condition == "like new" ? "selected" : "" %> >Like New</option>
-				<option value="used" <%= listing.condition == "used" ? "selected" : "" %> >Used</option>
-				<option value="scrap" <%= listing.condition == "scrap" ? "selected" : "" %> >Scrap</option>
-			</select>
-			<label for="description">Description</label>
-			<textarea id="description" class="form-control" name="description"><%= listing.description %></textarea>
-		</div>
-		<div class="container">
-			<div class="row">
-				<h3>Photos</h3>
-			</div>
-			<div id="photos" class="row">
-				<% if(typeof(listing.pictures) !== undefined) { 
-					listing.pictures.forEach((picture) => { %>
-					<div id="<%= picture %>" class="col-4 photo">
-						<div class="row">
-							<img src="/images/db/<%= picture %>" alt="<%= picture %>" />
-						</div>
-						<div class="row">
-							<button class="btn btn-danger photo-remove" value="<%= picture %>">Remove</button>
-						</div>
-					</div>
-				<% })}; %>
-
-			</div>
-		</div>
-<!-- After the bidding starts, the bid and duration shouldn't be changed. Instead, one should be able to cancel the bid
-		<label for="pictures">Upload Pictures: </label>
-		<input id="pictures" type="file" class="form-control-file" name="pictures" multiple="multiple" />
-
-		<div>
-			<label for="bidStart">Starting Bid: </label>
-			<input id="bidStart" type="text" class="form-control" name="bidStart" />
-
-			<label for="durationDays">Duration in days</label>
-			<input id="days" name="durationDays" value=0 size=3/>
-		</div>
--->
-<!--
-		<div>
-			<label for="shippingCarrier">Shipping Carrier: </label>
-			<select id="shippingCarrier" class="form-control" name="shippingCarrier">
-				<option value="usps">USPS</option>
-				<option value="ups">UPS</option>
-				<option value="fedex">Fedex</option>
-			</select>
-			<label for="shippingSpeed">Shipping Type: </label>
-			<select id="shippingSpeed" class="form-control" name="shippingSpeed">
-				<option value="night">Overnight</option>
-				<option value="air">2-3 Day Air</option>
-				<option value="ground">Ground</option>
-			</select>
-		</div>
--->
-		<div>
-			<input id="submit" type="submit" value="<%=listing._id%>" name="submit" />
+<div class="row">
+	<div id="gallery" class="col col-5">
+		<img id="picture" class="display-img" src="/images/db/<%= listing.pictures[0] %>" />
+		<div id="gallery-nav">
+			<button id="previous" class="btn btn-primary">
+				<i class="fa fa-arrow-circle-left" style="font-size:18px"></i>
+			</button>
+			<button id="photo-delete" class="btn btn-danger">
+				Remove Photo (permanent)
+			</button>
+			<button id="next" class="btn btn-primary">
+				<i class="fa fa-arrow-circle-right" style="font-size:18px"></i>
+			</button>
 		</div>
 	</div>
-</form>
-<p id="ba">
-</p>
+	<div class="col col-7 parent border-left pad">
+		<div class="row">
+			<div class="title"><%= listing.title %></div>
+		</div>
+		<div class="row">
+			<label for="category">Category: </label>
+			<select class="" id="category" name="category">
+				<option></option>
+				<% var categories = ['Apparel', 'Beauty', 'Books', 'Camera', 'Cell Phones', 'Collectables', 'Jewelry', 'Fine Art', 'Handmade', 'Health', 'Music', 'Music Instruments', 'Office', 'Outdoors', 'Software', 'Video Games', 'Board Games', 'Toys', 'Sports', 'Tools', 'Videos']; 
+				categories.sort();
+				categories.forEach((category) => { 
+					var selected = "";
+					if(category == listing.category) {
+						selected = "selected";
+					} %>
+					<option value="<%= category %>" <%= selected %>><%= category %></option>
+				<% }) %>
+			</select>
+		</div>
+		<div class="row">
+			<label for="condition">Condition: </label>
+			<select class="" id="category" name="category">
+				<option></option>
+				<% var conditions = ['New', 'Like New', 'Used', 'Scrap']; 
+				conditions.sort();
+				conditions.forEach((condition) => { 
+					var selected = "";
+					if(condition == listing.condition) {
+						selected = "selected";
+					} %>
+					<option value="<%= condition %>" <%= selected %>><%= condition %></option>
+				<% }) %>
+			</select>
+		</div>
+
+		<div class = "row border-bottom">
+			<div>
+				<h3>Current Bid: <strong>$</strong><strong id='current-bid'><%= currentBid %></strong></h3>
+			</div>
+		</div>
+
+		<div class="desc row">
+			<textarea>
+				<p><%= listing.description %></p>
+			</textarea>
+		</div>
+		<form id='biddingForm' action="javascript:void(0);">
+			<div class='row timer-row'>
+				<div class="flex-across">
+					<button class='btn btn-primary'>Save Edits</button>
+					<div id="border" class="bid-timer">
+						<div id="countdown" class="big hspace"></div>
+						<label for="newBid">Your bid: </label>
+						<input type='text' class='col' id='newBid' name='newBid' min=0 placeholder="For reference" />
+					</div>
+					<button id='submitBid' type='submit'><i class="fa fa-gavel fa-3x" ></i></button>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</div>
 
 <%- include("partials/footer") %>
+<script>
+	let listID = <%- JSON.stringify(listing._id) %>;
+	console.log(listID);
+</script>
+<!-- <script src="/js/countdown.js"></script> -->
+<script src="/js/gallery.js"></script>
 <script src="/js/edit.js"></script>
 </body>
 </html>

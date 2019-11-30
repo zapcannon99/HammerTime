@@ -1,6 +1,6 @@
 $(document).ready(function() {
-	if($('#biddingForm').length > 0) {
-		$('#biddingForm').submit((event) => {
+	if($('#bidding-form').length > 0) {
+		$('#bidding-form').submit((event) => {
 			// check if the submitted bid is higher before calling the api
 
 			var currentBid = parseFloat($('#current-bid').text());

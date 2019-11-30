@@ -31,7 +31,7 @@ data-listing="<%= JSON.stringify(listing) %>">
 
 		<div class = "row border-bottom">
 			<div>
-				Current Bid: <strong>$</strong><strong id='current-bid'><%= currentBid %></strong>
+				<h3>Current Bid: <strong>$</strong><strong id='current-bid'><%= currentBid %></strong></h3>
 			</div>
 		</div>
 
@@ -41,7 +41,7 @@ data-listing="<%= JSON.stringify(listing) %>">
 		<% if(!user) { %>
 			<a href='/users/login'><p>Sign in to start HammerTime!</p></a>
 		<% } %>
-			<form id='biddingForm' action="javascript:void(0);">
+			<form id='bidding-form' action="javascript:void(0);">
 				<div class='row timer-row'>
 					<div class="flex-across">
 						<div id="border" class="bid-timer">
