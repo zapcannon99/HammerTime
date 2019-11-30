@@ -15,8 +15,8 @@ $(document).ready(() => {
 		toastr.error('<div style="font-size:'+font+'pt;">'+str+'</div>');
 	}
 
-	/*$("#searchSubmit").on("click", function(){
-		warning("submit button clicked", 14);
-	});*/
+	// $("#searchSubmit").on("click", function(){
+	// 	warning("submit button clicked", 14);
+	// });
 
 });

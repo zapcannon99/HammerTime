@@ -7,7 +7,7 @@ $(document).ready(() => {
 	var filtered = JSON.parse(JSON.stringify(listings));
 
 	filter = function(){
-		var category = $("#condition").val();
+		var category = $("#category").val();
 		var searchTerm = $("#search").val();
 		filtered = [];
 		for(var i = 0;i<listings.length;i++)
