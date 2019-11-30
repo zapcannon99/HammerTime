@@ -28,16 +28,40 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/listings', function(req, res, next){
-	console.log(req);
-	var collection = db.get("listings");
-	collection.find()
-	.then((docs) => {
-		res.locals.listings = docs
-		res.locals.bids = undefined;
-		res.locals.user = req.user;
-		res.locals.page = 1;
-		res.render('index');
-	})
+	(async function() {
+		var collection = db.get("listings");
+		var bids = db.get('bids');
+		var listings = await collection.find()
+		.then((docs) => {
+			return docs;
+		})
+
+		var lastBidIDs = listings.map(listing => {
+			if(listing.bids.length > 0) {
+				return monk.id(listing.bids[listing.bids.length - 1]);
+			} else {
+				return null;
+			}
+		});
+		console.log("Why is this not working");
+		var possibleBids = await bids.find({_id: {$in: lastBidIDs}}).then((docs) => {return docs;});
+
+		lastBidIDs.forEach((id, index) => {
+			var currentBid = 0;
+			console.log("ID: " + id);
+			if(id != null) {
+				var bid = possibleBids.find(({_id}) => {return _id.toString() == id.toString();});
+				console.log(bid)
+				currentBid = bid.amount;
+			} else {
+				currentBid = listings[index]
+			}
+			listings[index].currentBid = currentBid;
+		});
+
+		res.render('index', {listings: listings, user: req.user, page: 1});
+	})()
+	
 });
 
 // router.get('/listings/search', function(req, res, next){

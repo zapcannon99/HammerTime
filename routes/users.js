@@ -1,7 +1,12 @@
 var express = require("express");
 var passport = require('passport');
 var Account = require('../models/account');
+var globals = require('../globals/globals');
+var monk = require('monk');
 var router = express.Router();
+
+var db_path = "localhost:27017/HammerTime";
+var db = monk(db_path);
 
 router.get('/', function (req, res) {
 	res.render('index', { user : req.user });
@@ -50,6 +55,19 @@ router.post('/login', passport.authenticate('local', {failureRedirect: '/users/l
 router.get('/logout', function(req, res) {
 	req.logout();
 	res.redirect('/');
+});
+
+router.get('/account', globals.checkAuthentication, function(req, res) {
+	var pastBids;
+	(async function() {
+		var bids = await db.get('bids');
+		var listings = await db.get('listings');
+		pastBids = await bids.find({username: req.user.username});
+		pastBids.reverse();
+		var listingIDs = await pastBids.map(bid => bid.listingID);
+		var listings = await listings.find({_id: {$in: listingIDs.map(id => monk.id(id))}}).then((docs) => {return docs;})
+		return res.render('user/account', {user: req.user, pastBids: pastBids, listings: listings});
+	})()
 });
 
 router.get('/ping', function(req, res){
