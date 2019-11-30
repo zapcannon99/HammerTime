@@ -36,38 +36,53 @@ router.get('/:id', globals.checkOwnership, globals.checkAuthentication, function
 	}
 });
 
-router.post('/', globals.checkAuthentication, upload.single('image'), function(req, res, next){
-	var pictures = req.files.map(f => f.filename);
-
-	var listing = {
-		title: req.body.title,
-		condition: req.body.condition,
-		description: req.body.description,
-		bid: req.body.bidtart,
-		duration_days: req.body.duration_days,
-		pictures: pictures
-	}
+router.post('/:id', globals.checkOwnership, globals.checkAuthentication, upload.array('added-photos'), function(req, res, next){
+	console.log(req.files);
+	var newPictures = req.files.map(f => f.filename);
 
 	var collection = db.get("listings");
-	collection.insert(listing)
-	.then((doc) => {
-		req.listing = doc;
-		res.redirect('/listings/' + doc._id);
+	collection.findOne({_id: monk.id(req.params.id)})
+	.then((listing) => {
+		var pictures = listing.pictures;
+		pictures = pictures.concat(newPictures);
+		collection.findOneAndUpdate({_id: monk.id(req.params.id)}, {$set: {pictures: pictures}})
+		.then((updatedDoc) => {
+			res.json({added: true, pictures: updatedDoc.pictures});
+		});
 	}).catch((err) => {
+		res.json({added: false, info: "Sorry! There was an error on the server!"});
 	}).then(() => db.close());
 });
 
-router.delete('/:id', globals.checkAuthentication, function(req, res, next){
-	var pictures = req.files.map(f => f.filename);
+router.delete('/:id', globals.checkOwnership, globals.checkAuthentication, function(req, res, next){
+	var listings = db.get('listings');
+	var index = req.body.index;
+	var picture = req.body.picture;
+	listings.findOne({_id: monk.id(req.params.id)})
+	.then((listing) => {
+		var pictures = listing.pictures;
+		var candidatePicture = pictures[index];
+		if(candidatePicture == picture) {
+			pictures.splice(index, 1);
+			(async function(){
+				var updatedDoc = await listings.findOneAndUpdate({_id: monk.id(req.params.id)}, {$set: {pictures: pictures}}).then((updatedDoc) => {return updatedDoc;})
+				return res.json({deleted: true, pictures: updatedDoc.pictures});
+			})()
+		} else {
+			return res.json({deleted: false, info: "Sorry! There was an error in the server!"});
+		}
+	});
 
-	updates = {
-		title: req.body.title,
-		condition: req.body.condition,
-		description: req.body.description,
-		bid: req.body.bidtart,
-		duration_days: req.body.duration_days,
-		pictures: pictures
-	}
+	// var pictures = req.files.map(f => f.filename);
+
+	// updates = {
+	// 	title: req.body.title,
+	// 	condition: req.body.condition,
+	// 	description: req.body.description,
+	// 	bid: req.body.bidtart,
+	// 	duration_days: req.body.duration_days,
+	// 	pictures: pictures
+	// }
 
 });
 

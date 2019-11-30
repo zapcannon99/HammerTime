@@ -27,4 +27,48 @@ $(document).ready(() => {
 		index %= listing.pictures.length;
 		addPicture(index);
 	});
+
+	// Should only be accessible when editing the page (on an edit.ejs page)
+
+	$("#photo-delete").on("click", function(event) {
+		var photo = listing.pictures[index];
+		$.ajax({
+			method: "POST",
+			url: "/api/images/" + listing._id + "?_method=DELETE",
+			data: {index: index, picture: photo},
+			dataType: 'json'
+		}).done((data) => {
+			if(data.deleted){
+				listing.pictures = data.pictures;
+				$("#picture").remove();
+				index = 0;
+				addPicture(index);
+			} else {
+				// Some warning message possibly
+			}
+		});
+	});
+
+	$('#photo-form').submit(function(event) {
+		console.log("HWELLLLOOOOOO");
+		var formData = new FormData(this);
+		$.ajax({
+			method: "POST",
+	        url: "/api/images/" + listing._id,
+	        data: formData,
+	        processData: false,
+	        contentType: false,
+	        dataType: 'json'
+		}).done((data) => {
+			if(data.added) {
+				listing.pictures = data.pictures;
+				$("#picture").remove();
+				index = 0;
+				addPicture(index);
+			} else {
+				// Some warning message possibly
+			}
+		});
+	});
+
 });

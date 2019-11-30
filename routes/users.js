@@ -33,7 +33,9 @@ router.get('/login', function(req, res) {
 		res.locals.warning = req.session.warning;
 		req.session.warning = null;
 	}
-	req.session.referer = req.headers.referer;
+	if(req.session.referer == null) {
+		req.session.referer = req.headers.referer;
+	}
 	res.render('user/login', { user : req.user });
 });
 
