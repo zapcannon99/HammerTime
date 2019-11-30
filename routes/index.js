@@ -51,10 +51,9 @@ router.get('/listings', function(req, res, next){
 			console.log("ID: " + id);
 			if(id != null) {
 				var bid = possibleBids.find(({_id}) => {return _id.toString() == id.toString();});
-				console.log(bid)
 				currentBid = bid.amount;
 			} else {
-				currentBid = listings[index]
+				currentBid = listings[index].bidStart;
 			}
 			listings[index].currentBid = currentBid;
 		});
