@@ -15,14 +15,17 @@
 		</ul>
 	<% } else { %>
 		<ul class="nav navbar-nav ml-auto flex-across">
-			<li class="nav-item">
-				<a class="nav-link" href="/listings/new"><button class="btn btn-primary">Add a new listing</button></a>
+			<li class="nav-item flexdown hspace">
+				<a class="big nopad" href="/listings/new"><i class="fa fa-plus-square big" aria-hidden="true"></i></a>
 			</li>
 			<li>
 				<a class="nav-link" href="/users/account">Account</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="/users/logout">Log Out</a>
+				<a class="nav-link kinda-big"> <%= user.username %> <i class="fa fa-user big" aria-hidden="true"></i></a>
+			</li>
+			<li class="nav-item flexdown hspace">
+				<a class="big nopad" href="/users/logout"><i class="fa fa-sign-out big" aria-hidden="true"></i></a>
 			</li>
 		</ul>
 	<% } %>

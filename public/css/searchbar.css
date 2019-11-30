@@ -6,6 +6,32 @@
   display: flex;
 }
 
+.flexdown{
+  display:flex!important;
+  flex-direction: down!important;
+  align-items:center;
+}
+
+.big{
+  font-size:22pt;
+}
+
+.kinda-big{
+  font-size:18pt;
+}
+
+.nopad{
+  padding:0!important;
+}
+
+.hspace{
+  margin-right:10px;
+}
+
+.match-color{
+  color:#9D9D9D;
+}
+
 .searchTerm {
   width: 100%;
   height:100%;
@@ -25,7 +51,7 @@
 .searchFilter {
   width: 300px;
   height: 36px;
-  border: 3px solid #555555; 
+  border: 3px solid #555555;
   /* background: #555555; */
   text-align: center;
   /* color: #fff; */

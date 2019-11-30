@@ -11,10 +11,8 @@ var db = monk(db_path);
 
 router.post('/checkUsernameAvailability', function (req, res) {
 	var accounts = db.get('accounts');
-	console.log(req.body);
 	accounts.findOne({username: req.body.username})
 	.then((doc) => {
-		console.log("doc" + doc);
 		doc == null ? res.json({available: 1}) : res.json({available: 0});
 	}).then(() => db.close());
 });

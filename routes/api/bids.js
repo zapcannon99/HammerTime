@@ -18,10 +18,8 @@ async function getCurrentBid(listingID) {
 	if(listing.bids.length > 0) {
 		var lastBid = await bidsCollection.findOne({_id: monk.id(listing.bids[listing.bids.length - 1])}).then((bid) => {return bid;});
 		currentBid = lastBid.amount;
-		//console.log("nolo" + currentBid);
 		return currentBid;
 	} else {
-		//console.log("yolo" + currentBid)
 		return currentBid;
 	}
 }
@@ -30,29 +28,22 @@ async function getCurrentBid(listingID) {
 // routes for bids ---------------------------------------
 
 router.get('/getCurrentBid/:id', function(req, res, next) {
-	// console.log(req.params.id);
-	// console.log("what what?" + req.user);
 	(async function(){
 		return res.json({currentBid: await getCurrentBid(req.params.id)});
 	})()
 });
 
 router.post('/submitBid', globals.checkAuthentication, function(req, res, next){
-	console.log("username" + req.user);
 	var listings = db.get('listings');
 	var bids = db.get('bids');
 	var submittedBid = req.body.bid;
-	console.log(req.body.listID);
-	
+
 	(async function() {
 		var currentBid = await getCurrentBid(req.body.listID);
-		console.log(currentBid);
 		if(submittedBid > currentBid) {
 			var insertedBid = await bids.insert({listingID: req.body.listID, username: req.user.username, amount: req.body.bid, timestamp: Date.now()}).then((bid) => {return bid;});
-			console.log(insertedBid);
 			var bidID = insertedBid._id;
 			var listing = await listings.findOne({_id: monk.id(req.body.listID)}).then((listing) => {return listing;})
-			console.log(listing);
 			var pastBids = listing.bids;
 			pastBids.push(bidID);
 			listing = await listings.findOneAndUpdate({_id: monk.id(req.body.listID)}, {$set: {bids: pastBids}}).then((updatedDoc) => {console.log(updatedDoc)});
@@ -61,7 +52,7 @@ router.post('/submitBid', globals.checkAuthentication, function(req, res, next){
 			return res.json({sucess: false, info: "Sorry! Someone has bet more before you did!", currentBid: currentBid	});
 		}
 	})()
-		
+
 });
 
 module.exports = router;

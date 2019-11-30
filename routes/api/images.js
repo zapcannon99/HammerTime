@@ -26,7 +26,6 @@ var db = monk(db_path);
 router.get('/:id', globals.checkOwnership, globals.checkAuthentication, function(req, res, next){
 	// grab the listing with id id
 	if(typeof(req.listing) == "undefined"){
-		console.log(req.params.id);
 		var collection = db.get("listings");
 
 		collection.findOne({_id: monk.id(req.params.id)})
@@ -34,7 +33,7 @@ router.get('/:id', globals.checkOwnership, globals.checkAuthentication, function
 	} else {
 		res.locals.listing = req.listing
 		res.render('listing/show');
-	}	
+	}
 });
 
 router.post('/', globals.checkAuthentication, upload.single('image'), function(req, res, next){
@@ -52,17 +51,15 @@ router.post('/', globals.checkAuthentication, upload.single('image'), function(r
 	var collection = db.get("listings");
 	collection.insert(listing)
 	.then((doc) => {
-		console.log(doc._id + "inserted");
 		req.listing = doc;
 		res.redirect('/listings/' + doc._id);
 	}).catch((err) => {
-		console.log(err);
 	}).then(() => db.close());
 });
 
 router.delete('/:id', globals.checkAuthentication, function(req, res, next){
 	var pictures = req.files.map(f => f.filename);
-	
+
 	updates = {
 		title: req.body.title,
 		condition: req.body.condition,
@@ -71,9 +68,6 @@ router.delete('/:id', globals.checkAuthentication, function(req, res, next){
 		duration_days: req.body.duration_days,
 		pictures: pictures
 	}
-
-	console.log("PUT");
-	console.log(updates);
 
 });
 

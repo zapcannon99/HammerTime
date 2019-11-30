@@ -2,9 +2,7 @@ var removedPhotos = [];
 
 $(document).ready(() => {
 	$(".photo-remove").on("click", function() {
-		console.log($(this).val());
 		removedPhotos.push(this.value);
-		console.log(removedPhotos);
 	});
 
 
@@ -15,7 +13,7 @@ $(document).ready(() => {
 			url: "/listings/" + id,
 			data: {test: "this is testing"}
 		}).done(function(){
-			
+
 		});
 	});
 });

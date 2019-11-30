@@ -22,32 +22,42 @@ data-listing="<%= JSON.stringify(listing) %>">
 		<div class="row">
 			<div class="title"><%= listing.title %></div>
 		</div>
-		<div class="row border-bottom">
+		<div class="row">
+			<div>Category: <strong><%= listing.category %></strong></div>
+		</div>
+		<div class="row">
 			<div>Condition: <strong><%= listing.condition %></strong></div>
 		</div>
 
-		<h4>Current Bid: $<span id='currentBid'><%= currentBid %></span></h4>
+		<div class = "row border-bottom">
+			<div>
+				Current Bid: <strong>$</strong><strong id='current-bid'><%= currentBid %></strong>
+			</div>
+		</div>
 
 		<div class="desc row">
 			<p><%= listing.description %></p>
 		</div>
 		<% if(!user) { %>
 			<a href='/users/login'><p>Sign in to start HammerTime!</p></a>
-		<% } else if(user && !owned){ %>
+		<% } %>
 			<form id='biddingForm' action="javascript:void(0);">
 				<div class='row timer-row'>
 					<div class="flex-across">
 						<div id="border" class="bid-timer">
 							<div id="countdown" class="big hspace"></div>
-							<label for="newBid">Your bid: </label>
-							<input type='number' class='col' id='newBid' name='newBid' min=0 />
+							<% if(user && !owned) {%>
+							<div class="big"><strong>$</strong></div>
+							<input type='number' class='col form-control' id='new-bid' name='newBid' min=0 />
+							<% } %>
 						</div>
-						<button id='submitBid' type='submit'><!--<img id="pic" class="picture-button grow" src="/images/bid.png"></img>--><i class="fa fa-gavel fa-3x" ></i></button>
+						<% if(user && !owned){ %>
+						<button id='submit-bid' type='submit'><!--<img id="pic" class="picture-button grow" src="/images/bid.png"></img>--><i class="fa fa-gavel fa-3x" ></i></button>
 						<!-- <button id='submitBid' type='submit'><i class="fa fa-gavel" ></i></button> -->
+						<% } %>
 					</div>
 				</div>
 			</form>
-		<% } %>
 		<!-- <div class="row">
 			<button id='test' class='btn'>Refresh</button>
 		</div> -->
@@ -76,7 +86,6 @@ data-listing="<%= JSON.stringify(listing) %>">
 <%- include("partials/footer") %>
 <script>
 	let listID = <%- JSON.stringify(listing._id) %>;
-	console.log(listID);
 </script>
 <script src="/js/show.js"></script>
 <script src="/js/countdown.js"></script>
