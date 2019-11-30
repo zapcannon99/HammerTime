@@ -2,7 +2,7 @@
    <div class="search">
       <input id="search" type="text" class="searchTerm" placeholder="What are you looking for?" name="query" <%- typeof(query) != "undefined" ? "value='" + query + "'" : "" %>>
       <select class="searchFilter" id="category" name="category">
-					<option value="">No Category</option>
+					<option value="">All Categories</option>
 					<% var categories = ['Apparel', 'Beauty', 'Books', 'Camera', 'Cell Phones', 'Collectables', 'Jewelry', 'Fine Art', 'Handmade', 'Health', 'Music', 'Music Instruments', 'Office', 'Outdoors', 'Software', 'Video Games', 'Board Games', 'Toys', 'Sports', 'Tools', 'Videos'];
 					categories.sort();
 					categories.forEach((category) => {
