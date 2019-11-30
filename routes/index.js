@@ -142,7 +142,8 @@ router.post('/listings', globals.checkAuthentication, upload.array('pictures', 1
 		pictures: pictures,
 		owner: req.user.username,
 		bids: [],
-		deleted: 0
+		deleted: 0,
+		ended: 0
 	}
 
 	var collection = db.get("listings");
