@@ -1,3 +1,5 @@
+const cron = require("node-cron");
+const fs = require("fs");
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -13,14 +15,15 @@ var LocalStrategy = require('passport-local').Strategy;
 var session = require('express-session');
 
 // db connection
-// var monk = require('monk');
-// var db = monk('localhost:27017/HammerTime');
+var monk = require('monk');
+var db = monk('localhost:27017/HammerTime');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var imageRouter = require('./routes/api/images');
 var apiUsersRouter = require('./routes/api/users');
 var apiBidsRouter = require('./routes/api/bids')
+
 
 var app = express();
 
@@ -79,6 +82,55 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+cron.schedule("* * * * *", function() {
+	console.log("---------------------");
+	console.log("Running Cron Job For Ended Listings");
+	var cutoff = (new Date(Date.now())).toISOString();
+
+	var listings = db.get('listings');
+	var bids = db.get('bids');
+	var accounts = db.get('accounts');
+	(async function() {
+		var endedListings = await listings.find({ended: false, endTime: {$lte: cutoff}}).then((docs) => {return docs;})
+		console.log(endedListings);
+		var promises = await endedListings.map(listing => 
+			listings.findOneAndUpdate({_id: monk.id(listing._id)}, {$set: {ended: true}})
+			.then((listing) => {
+				if(listing.bids.length > 0) {
+					return (async function() {
+						var winningBid = await bids.findOne({_id: monk.id(listing.bids[listing.bids.length - 1])}).then((doc) => {return doc;});
+						var winningUsername = winningBid.username;
+						listing.winner = winningUsername;
+						listing.finalBid = winningBid.amount;
+						console.log("tolo" + winningBid);
+						return listing;
+					})()
+				} else {
+					listing.winner = undefined;
+					return listing;
+				}
+			})
+		)
+		var endedListings = await Promise.all(promises);
+		console.log(endedListings);
+		promises = [];
+		endedListings.forEach(endedListing => {
+			if(endedListing.winner == undefined) {
+				ownerMessage = {listing: endedListing, message: "Sorry! Nobody your item didn't sell!" };
+				promises.push(accounts.findOneAndUpdate({username: endedListing.owner}, {$push: {notifications: ownerMessage}}).then(() => {return 1;}));
+			} else {
+				ownerMessage = {listing: endedListing, message: "Congratulations! Your items sold auctioned to " + endedListing.winner + " for " + endedListing.finalBid };
+				promises.push(accounts.findOneAndUpdate({username: endedListing.owner}, {$push: {notifications: ownerMessage}}).then(() => {return 1;}));
+				winnerMessage = {listing: endedListing, message: "Congratulations! Your bid won the HammerTime!"};
+				promises.push(accounts.findOneAndUpdate({username: endedListing.winner}, {$push: {notifications: winnerMessage}}).then(() => {return 1;}));
+			}
+		});
+
+		var done = await Promise.all(promises);
+		console.log("done!");
+	})()
 });
 
 module.exports = app;

@@ -141,8 +141,8 @@ router.post('/listings', globals.checkAuthentication, upload.array('pictures', 1
 		pictures: pictures,
 		owner: req.user.username,
 		bids: [],
-		deleted: 0,
-		ended: 0
+		deleted: false,
+		ended: false // ended is the flag used by cron scheduler to help flag ones that have already been checked
 	}
 
 	var collection = db.get("listings");

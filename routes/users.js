@@ -23,6 +23,7 @@ router.post('/register', function(req, res) {
 		}
 
 		passport.authenticate('local')(req, res, function () {
+			// db.get('accounts').findOneAndUpdate({username: req.body.username}, {$set: {notifications: []}}).then((updatedDoc) => {resolve();});
 			res.redirect('/');
 		});
 	});
