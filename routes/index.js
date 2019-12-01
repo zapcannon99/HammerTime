@@ -122,7 +122,6 @@ router.get('/listings/:id', function(req, res, next){
 			}
 		});
 	} else {
-		// I feel like this else will never be accessed, so I don't know why I have it -JY
 		res.locals.listing = req.listing
 		res.render('listing/show', {user: req.user});
 	}
@@ -188,19 +187,21 @@ router.get('/listings/:id/edit', globals.checkOwnership, globals.checkAuthentica
 });
 
 router.put('/listings/:id', globals.checkOwnership, globals.checkAuthentication, function(req, res, next){
-	var pictures = req.files.map(f => f.filename);
-
 	updates = {
 		title: req.body.title,
 		category: req.body.category,
 		condition: req.body.condition,
 		description: req.body.description,
-		endTime: req.body.endTime
 	}
+
+	console.log(updates);
 
 	var collection = db.get('listings');
 	collection.findOneAndUpdate({_id: monk.id(req.params.id)}, {$set: updates})
-	.then((updatedDoc) => { res.render("/listings/" + updatedDoc._id, {listing: updatedDoc, user: req.user }); })
+	.then((updatedDoc) => { 
+		req.listing = updatedDoc;
+		res.redirect("/listings/" + updatedDoc._id);
+	})
 	.then(() => db.close());
 
 });

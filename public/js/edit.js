@@ -1,19 +1,10 @@
 $(document).ready(function() {
-	$(".photo-remove").on("click", function() {
-		removedPhotos.push(this.value);
+	$('#save-edits').click(function(event) {
+		event.preventDefault();
+		$('#text-edits-form').submit();
 	});
 
-
-	$("#submit").on("click", function(){
-		var id = $("#submit").val();
-		$.ajax({
-			method: "PUT",
-			url: "/listings/" + id,
-			data: {test: "this is testing"}
-		}).done(function(){
-			console.log("yays");
-		});
-	});
-
-	
+	// $('#cancel-edits').click(function(event) {
+	// 	window.location.href = "http://stackoverflow.com";
+	// })
 });
