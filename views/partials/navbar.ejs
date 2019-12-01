@@ -18,12 +18,34 @@
 			<li class="nav-item flexdown hspace">
 				<a class="big nopad" href="/listings/new"><i class="fa fa-plus-square big" aria-hidden="true"></i></a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link kinda-big" href="/users/account"> <%= user.username %> <i class="fa fa-user big" aria-hidden="true"></i></a>
-			</li>
-			<li class="nav-item flexdown hspace">
-				<a class="big nopad" href="/users/logout"><i class="fa fa-sign-out big" aria-hidden="true"></i></a>
-			</li>
+			<li class="nav-item dropdown flexdown hspace">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-bell big" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="position:absolute; left:-10px;width: 230px;max-height:200px; overflow-y:scroll">
+					<div class="dropdown-item" href="/users/account">
+							<div style="display:flex; flex-direction:across;">
+            		<div class=""><div class="notify-img"><img src="http://placehold.it/45x45" alt="" style="margin-right:10px"></div></div>
+            		<div style="white-space:normal">
+            			Lorem ipsum sit dolor amet consilium.
+            		</div>
+								<i class="fa fa-times dismiss"></i>
+							</div>
+					</div>
+        </div>
+      </li>
+			<li class="nav-item dropdown flexdown hspace">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-user big" aria-hidden="true">
+						<%= user.username %>
+					</i>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="position:absolute">
+          <a class="dropdown-item" href="/users/account">Account</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/users/logout">Logout</a>
+        </div>
+      </li>
 		</ul>
 	<% } %>
 </nav>
