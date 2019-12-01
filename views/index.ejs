@@ -32,6 +32,11 @@
 <div align="center">
   <img class="logo" src="./images/logo.png"></img>
 </div>
+<% if(typeof(info) != "undefined" ) { %>
+	<div>
+		<p id='info' class='<%= typeof(type) == "undefined" ? "warning" : type %>'><%= info %></p>
+	</div>
+<% } %>
 
 <%- include("partials/search") %>
 

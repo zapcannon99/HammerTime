@@ -1,0 +1,45 @@
+<%- include("../partials/head", {title: "HammerTime", css: ["show.css"]})%>
+<%- include("../partials/navbar") %>
+
+
+<div id="data" class="hidden"
+data-listing="<%= JSON.stringify(listing) %>">
+</div>
+
+<div class="row">
+	<div id="gallery" class="col col-5">
+		<img id="picture" class="display-img" src="/images/db/<%= listing.pictures[0] %>" />
+		<div id="gallery-nav">
+			<button id="previous" class="btn btn-primary">
+				<i class="fa fa-arrow-circle-left" style="font-size:18px"></i>
+			</button>
+			<button id="next" class="btn btn-primary">
+				<i class="fa fa-arrow-circle-right" style="font-size:18px"></i>
+			</button>
+		</div>
+	</div>
+	<div class="col col-7 parent border-left pad">
+		<div class="row">
+			<div class="title"><%= listing.title %></div>
+		</div>
+
+		<div class = "row border-bottom">
+			<div>
+				<form action="/listings/<%= listing._id %>/checkout" method="POST">
+					<input type='submit' value='Submit Payment (via magic)'>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- include("partials/footer") %>
+<script>
+	let listID = <%- JSON.stringify(listing._id) %>;
+</script>
+<script src="/js/show.js"></script>
+<script src="/js/countdown.js"></script>
+<script src="/js/gallery.js"></script>
+
+</body>
+</html>

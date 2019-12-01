@@ -141,7 +141,9 @@ router.post('/listings', globals.checkAuthentication, upload.array('pictures', 1
 		owner: req.user.username,
 		bids: [],
 		deleted: false,
-		ended: false // ended is the flag used by cron scheduler to help flag ones that have already been checked
+		ended: false, // ended is the flag used by cron scheduler to help flag ones that have already been checked
+		paid: false,
+		shipped: false
 	}
 
 	var collection = db.get("listings");
@@ -210,11 +212,54 @@ router.put('/listings/:id', globals.checkOwnership, globals.checkAuthentication,
 router.delete('/listings/:id', globals.checkOwnership, globals.checkAuthentication, function(req, res, next){
 	// Remember to do soft delete, not hard delete
 	var collection = db.get('listings');
-	collection.findOneAndUpdate({_id: monk.id(req.params.id)}, {$set: {available: 0}})
+	collection.findOneAndUpdate({_id: monk.id(req.params.id)}, {$set: {deleted: true}})
 	.then((updatedDoc) => {
 		res.locals.info = "Item removed from available listings.";
 		res.redirect('/');
 	}).then(() => db.close());
+});
+
+router.get('/listings/:id/checkout', globals.checkAuthentication, function(req, res) {
+	var listings = db.get('listings');
+	(async function() {
+		var listing = await listings.findOne({_id: monk.id(req.params.id)}).then((doc) => {return doc;});
+		if(typeof(listing.winner) == "undefined") {
+			res.locals.info = "This doesn't belong to you!";
+			res.locals.type = "warning";
+			return res.redirect('/');
+		} else {
+			if(listing.winner == req.user.username) {
+				return res.render('listing/checkout', {user: req.user, listing: listing});
+			} else {
+				res.locals.info = "This doesn't belong to you!";
+				res.locals.type = "warning";
+				return res.redirect('/');
+			}
+		}
+	})()
+});
+
+router.post('/listings/:id/checkout', globals.checkAuthentication, function(req, res) {
+	var listings = db.get('listings');
+	(async function() {
+		var listing = await listings.findOne({_id: monk.id(req.params.id)}).then((doc) => {return doc;});
+		if(typeof(listing.winner) == "undefined") {
+			res.locals.info = "This doesn't belong to you!";
+			res.locals.type = "warning";
+			return res.redirect('/');
+		} else {
+			if(listing.winner == req.user.username) {
+				listings.findOneAndUpdate({_id: monk.id(listing._id)}, {$set: {paid: true}}).then((updatedDoc) => {return updatedDoc;});
+				res.locals.info = "Item Paid!";
+				res.locals.type = "success";
+				return res.redirect('/');
+			} else {
+				res.locals.info = "This doesn't belong to you!";
+				res.locals.type = "warning";
+				return res.redirect('/');
+			}
+		}
+	})()
 });
 
 
