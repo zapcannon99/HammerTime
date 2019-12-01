@@ -201,7 +201,7 @@ router.put('/listings/:id', globals.checkOwnership, globals.checkAuthentication,
 
 	var collection = db.get('listings');
 	collection.findOneAndUpdate({_id: monk.id(req.params.id)}, {$set: updates})
-	.then((updatedDoc) => { 
+	.then((updatedDoc) => {
 		req.listing = updatedDoc;
 		res.redirect("/listings/" + updatedDoc._id);
 	})
