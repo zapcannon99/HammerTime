@@ -14,7 +14,7 @@ $(document).ready(() => {
 		{
 			var now = Date.now();
 			var expire = Date.parse(listings[i].endTime);
-			if(now < expire)
+			if(now < expire && listings[i].available == 1)
 			{
 				if(match(listings[i].title, searchTerm))
 				{
