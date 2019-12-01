@@ -46,12 +46,15 @@ data-listing="<%= JSON.stringify(listing) %>">
 					<div class="flex-across">
 						<div id="border" class="bid-timer">
 							<div id="countdown" class="big hspace"></div>
-							<% if(user && !owned) {%>
+							<% let end = Date.parse(listing.endTime); %>
+							<% let now = Date.now(); %>
+							<% let expired = now > end; %>
+							<% if(user && !owned && !expired) {%>
 							<div class="big"><strong>$</strong></div>
 							<input type='number' class='col form-control' id='new-bid' name='newBid' min=0 />
 							<% } %>
 						</div>
-						<% if(user && !owned){ %>
+						<% if(user && !owned && !expired){ %>
 						<button id='submit-bid' type='submit'><!--<img id="pic" class="picture-button grow" src="/images/bid.png"></img>--><i class="fa fa-gavel fa-3x" ></i></button>
 						<!-- <button id='submitBid' type='submit'><i class="fa fa-gavel" ></i></button> -->
 						<% } %>
