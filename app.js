@@ -141,12 +141,6 @@ cron.schedule("* * * * *", function() {
 				}
 				promises.push(notifications.insert(notification).then(() => {return 1;}));
 			} else {
-<<<<<<< HEAD
-				ownerMessage = {listing: endedListing, message: "Congratulations! Your items sold auctioned to " + endedListing.winner + " for " + endedListing.finalBid };
-				promises.push(accounts.findOneAndUpdate({username: endedListing.owner}, {$push: {notifications: ownerMessage}}).then(() => {return 1;}));
-				winnerMessage = {listing: endedListing, message: "Congratulations! Your bid won the HammerTime!"};
-				promises.push(accounts.findOneAndUpdate({username: endedListing.winner}, {$push: {notifications: winnerMessage}}).then(() => {return 1;}));
-=======
 				var ownerNotification = {
 					account: endedListing.owner,
 					message: "Congratulations! Your item ("+endedListing.title+") sold for " + endedListing.finalBid,
@@ -161,7 +155,6 @@ cron.schedule("* * * * *", function() {
 				console.log(winnerNotification);
 				promises.push(notifications.insert(ownerNotification).then(() => {return 1;}));
 				promises.push(notifications.insert(winnerNotification).then(() => {return 1;}));
->>>>>>> 0b2209afdf1b4a8cf23cf983da110c7ea7803f6f
 				promises.push(listings.findOneAndUpdate({_id: monk.id(endedListing._id)}, {$set: {winner: endedListing.winner, finalBid: endedListing.finalBid}}).then(() => {return 1;}));
 			}
 		});
