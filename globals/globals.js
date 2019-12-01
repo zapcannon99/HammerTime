@@ -13,9 +13,9 @@ exports.checkAuthentication = function(req,res,next) {
 exports.checkOwnership = function(req, res, next) {
 	var collection = db.get('listings');
 	collection.findOne({ _id: req.params.id })
-	.then((doc) => { 
-		var listingUsername = doc.owner; 
-		if(req.user.username == listingUsername){
+	.then((doc) => {
+		var listingUsername = doc.owner;
+		if(req.user && req.user._id.equals(listingUsername)){
 			next();
 		} else {
 			res.locals.warning = "No touching. Just look. (in other words, stop trying to be bad and just be content with looking.";

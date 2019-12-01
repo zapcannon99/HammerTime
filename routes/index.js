@@ -60,7 +60,7 @@ router.get('/listings', function(req, res, next){
 
 		res.render('index', {listings: listings, user: req.user, page: 1});
 	})()
-	
+
 });
 
 // router.get('/listings/search', function(req, res, next){
@@ -99,6 +99,8 @@ router.get('/listings/new', globals.checkAuthentication, function(req, res, next
 
 router.get('/listings/:id', function(req, res, next){
 	// grab the listing with id id
+	console.log("GET REQUEST AA;SLKDJF;ASJDFAISJGPAOIJDG");
+	console.log(req.listing);
 	if(typeof(req.listing) == "undefined"){
 		console.log(req.params.id);
 		var collection = db.get("listings");
@@ -107,7 +109,7 @@ router.get('/listings/:id', function(req, res, next){
 		.then((listing) => {
 			var owned = false;
 			if(req.user){
-				if(req.user.username == listing.owner) {
+				if(req.user._id.equals(listing.owner)) {
 					owned = true;
 				}
 			}
@@ -138,7 +140,7 @@ router.post('/listings', globals.checkAuthentication, upload.array('pictures', 1
 		bidStart: req.body.bidStart,
 		endTime: req.body.endTime,
 		pictures: pictures,
-		owner: req.user.username,
+		owner: req.user._id,
 		bids: [],
 		deleted: false,
 		ended: false, // ended is the flag used by cron scheduler to help flag ones that have already been checked
@@ -159,6 +161,7 @@ router.post('/listings', globals.checkAuthentication, upload.array('pictures', 1
 
 router.get('/listings/:id/edit', globals.checkOwnership, globals.checkAuthentication, function(req, res, next){
 	// grab the listing with id id
+	console.log("ok we made it here ASDFASDF");
 	if(typeof(req.listing) == "undefined"){
 		console.log(req.params.id);
 		var collection = db.get("listings");
@@ -167,7 +170,7 @@ router.get('/listings/:id/edit', globals.checkOwnership, globals.checkAuthentica
 		.then((listing) => {
 			var owned = false;
 			if(req.user){
-				if(req.user.username == listing.owner) {
+				if(req.user._id == listing.owner) {
 					owned = true;
 				}
 			}

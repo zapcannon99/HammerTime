@@ -3,7 +3,6 @@ $(document).ready(() => {
 	var page = document.getElementById('data').dataset.page;
 	var listings = JSON.parse(document.getElementById('data').dataset.listings);
 	var NUM_PER_PAGE = 3;//WE CAN CHANGE THIS TO WHATEVER WE WANT
-	var num_pages = Math.ceil(listings.length / NUM_PER_PAGE);
 	var filtered = JSON.parse(JSON.stringify(listings));
 
 	filter = function(){
@@ -14,7 +13,7 @@ $(document).ready(() => {
 		{
 			var now = Date.now();
 			var expire = Date.parse(listings[i].endTime);
-			if(now < expire && listings[i].available == 1)
+			if(now < expire && listings[i].deleted == false)
 			{
 				if(match(listings[i].title, searchTerm))
 				{
@@ -23,6 +22,7 @@ $(document).ready(() => {
 				}
 			}
 		}
+		num_pages = Math.ceil(filtered.length / NUM_PER_PAGE);
 	}
 
 	match = function(str1, str2)
