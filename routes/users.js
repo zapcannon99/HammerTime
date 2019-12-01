@@ -63,7 +63,7 @@ router.get('/account', globals.checkAuthentication, function(req, res) {
 	(async function() {
 		var bids = await db.get('bids');
 		var listings = await db.get('listings');
-		pastBids = await bids.find({username: req.user.username});
+		pastBids = await bids.find({user: req.user._id});
 		pastBids.reverse();
 		var listingIDs = await pastBids.map(bid => bid.listingID);
 		var listings = await listings.find({_id: {$in: listingIDs.map(id => monk.id(id))}}).then((docs) => {return docs;})

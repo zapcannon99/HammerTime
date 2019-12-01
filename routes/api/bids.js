@@ -41,7 +41,7 @@ router.post('/submitBid', globals.checkAuthentication, function(req, res, next){
 	(async function() {
 		var currentBid = await getCurrentBid(req.body.listID);
 		if(submittedBid > currentBid) {
-			var insertedBid = await bids.insert({listingID: req.body.listID, username: req.user.username, amount: req.body.bid, timestamp: Date.now()}).then((bid) => {return bid;});
+			var insertedBid = await bids.insert({listingID: req.body.listID, user: req.user._id, amount: req.body.bid, timestamp: Date.now()}).then((bid) => {return bid;});
 			var bidID = insertedBid._id;
 			var listing = await listings.findOne({_id: monk.id(req.body.listID)}).then((listing) => {return listing;})
 			if(listing.endTime < Date.now()){
