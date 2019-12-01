@@ -125,7 +125,7 @@ cron.schedule("* * * * *", function() {
 				promises.push(accounts.findOneAndUpdate({username: endedListing.owner}, {$push: {notifications: ownerMessage}}).then(() => {return 1;}));
 				winnerMessage = {listing: endedListing, message: "Congratulations! Your bid won the HammerTime!"};
 				promises.push(accounts.findOneAndUpdate({username: endedListing.winner}, {$push: {notifications: winnerMessage}}).then(() => {return 1;}));
-				promises.push(listings.findOneAndUpdate({_id: monk.id(endedListing._id)}, {$set: {winner: endedListing.winner, finalBid: endedListing.finalBid}})).then(() => {return 1;});
+				promises.push(listings.findOneAndUpdate({_id: monk.id(endedListing._id)}, {$set: {winner: endedListing.winner, finalBid: endedListing.finalBid}}).then(() => {return 1;}));
 			}
 		});
 
