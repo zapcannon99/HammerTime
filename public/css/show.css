@@ -106,8 +106,20 @@ align-items: center;
 	width:150px;
 }
 
+.not-too-wide{
+	width:150px;
+}
+
+.formcol{
+	width: 100px;
+}
+
 .hspace{
 	margin-right:10px;
+}
+
+.vspace{
+	margin-bottom:10px;
 }
 
 .big{
