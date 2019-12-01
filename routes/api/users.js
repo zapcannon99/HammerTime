@@ -17,11 +17,31 @@ router.post('/checkUsernameAvailability', function (req, res) {
 	}).then(() => db.close());
 });
 
-router.get('/notifications', function (req, res) {
-
+router.get('/notifications/:id', function (req, res) {
+	var userId=req.params.id;
+	var notifications = db.get("notifications");
+	notifications.find({account: monk.id(userId)})
+	.then((doc) => {
+		res.json(doc);
+	}).catch((err) => {console.log(err)});
 });
 
-router.put('/notifications', function (req, res) {
+router.post('/notifications/:id', function (req, res) {
+
+	var notification = {
+		account: req.body.account,
+		message: req.body.message,
+		dismissed: req.body.dismissed
+	};
+
+	var collection = db.get("notifications");
+	collection.findOneAndUpdate({_id: monk.id(req.params.id)}, {$set: {dismissed: 1}})
+	.then((doc) => {
+		req.listing = doc;
+		return res.json("success");
+	}).catch((err) => {
+		console.log(err);
+	});
 
 });
 

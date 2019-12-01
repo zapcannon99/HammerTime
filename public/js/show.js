@@ -47,13 +47,4 @@ $(document).ready(function() {
 			}
 		});
 	}
-
-	$('#test').click((event) => {
-		$.ajax({
-			url: '/api/bids/getCurrentBid/' + listID,
-			method: "GET",
-			dataType: "json"
-		}).done((data) => {
-		});
-	});
 });
