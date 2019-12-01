@@ -17,4 +17,12 @@ router.post('/checkUsernameAvailability', function (req, res) {
 	}).then(() => db.close());
 });
 
+router.get('/notifications', function (req, res) {
+
+});
+
+router.put('/notifications', function (req, res) {
+
+});
+
 module.exports = router;
