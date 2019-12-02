@@ -26,11 +26,10 @@ data-listing="<%= JSON.stringify(listing) %>">
 			<div><strong>Sold for:</strong><%= listing.finalBid %></div>
 		</div>
 
-
 		<div class = "row">
 			<div>
 				<form action="/listings/<%= listing._id %>/checkout" method="POST">
-					<input id="pay" class="btn btn-primary" value='Submit Payment (via magic)'>
+					<input id="pay" class="btn btn-primary" <% if(listing.paid){%>disabled <%}%> value='<% if(!listing.paid){%>Submit Payment (via magic)<%}else{%>Paid!<%}%>'>
 				</form>
 			</div>
 		</div>

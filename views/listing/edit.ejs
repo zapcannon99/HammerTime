@@ -61,6 +61,7 @@ data-listing="<%= JSON.stringify(listing) %>">
 			<div class="row">
 				<div class="flex-across vspace">
 					<div class="formcol"><strong>Condition:</strong></div>
+					<input type="hidden" id = "shipped" name="shipped" value=<%= listing.shipped %>> </input>
 					<select class="form-control not-too-wide" id="condition" name="condition">
 						<option></option>
 						<% var conditions = ['New', 'Like New', 'Used', 'Scrap'];

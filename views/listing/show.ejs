@@ -71,6 +71,20 @@ data-listing="<%= JSON.stringify(listing) %>">
 			</div>
 		<% } %>
 
+		<% if(owned && listing.paid) { %>
+			<div class="row">
+				<form action="javascript:void(0);" method="">
+					<button id="ship" type="submit" class="btn btn-primary"<%if(listing.shipped){%> disabled <%}%>> <%if(!listing.shipped){%>Ship (via magic)<%}else{%>Shipped!<%}%> </button>
+				</form>
+			</div>
+		<% } %>
+
+		<% if(won) { %>
+			<a href="/listings/<%=listing._id%>/checkout">
+				<button class="btn btn-primary">Checkout </button>
+			</a>
+		<% } %>
+
 
 <!-- 		<div class="row timer-row">
 			<div class="flex-across">

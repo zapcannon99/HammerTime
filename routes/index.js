@@ -107,19 +107,25 @@ router.get('/listings/:id', function(req, res, next){
 		collection.findOne({_id: monk.id(req.params.id)})
 		.then((listing) => {
 			var owned = false;
+			var won = false;
 			if(req.user){
 				if(req.user._id.equals(listing.owner)) {
 					owned = true;
+				}
+				if(listing.winner)
+				{
+					if(req.user._id.equals(listing.winner))
+						won = true;
 				}
 			}
 			if(listing.bids.length > 0) {
 				var lastBidID = listing.bids[listing.bids.length - 1];
 				db.get('bids').findOne({_id: monk.id(lastBidID)})
 				.then((bid) => {
-					res.render('listing/show', {listing: listing, user: req.user, owned: owned, currentBid: bid.amount});
+					res.render('listing/show', {listing: listing, user: req.user, owned: owned, won:won, currentBid: bid.amount});
 				})
 			} else {
-				res.render('listing/show', {listing: listing, user: req.user, owned: owned, currentBid: listing.bidStart})
+				res.render('listing/show', {listing: listing, user: req.user, owned: owned, won: won, currentBid: listing.bidStart})
 			}
 		});
 	} else {
@@ -196,6 +202,7 @@ router.put('/listings/:id', globals.checkOwnership, globals.checkAuthentication,
 		category: req.body.category,
 		condition: req.body.condition,
 		description: req.body.description,
+		shipped: req.body.shipped,
 	}
 
 	console.log(updates);
