@@ -231,7 +231,7 @@ router.get('/listings/:id/checkout', globals.checkAuthentication, function(req, 
 			res.locals.type = "warning";
 			return res.redirect('/');
 		} else {
-			if(listing.winner == req.user.username) {
+			if(listing.winner.equals(req.user._id)) {
 				return res.render('listing/checkout', {user: req.user, listing: listing});
 			} else {
 				res.locals.info = "This doesn't belong to you!";
@@ -251,7 +251,7 @@ router.post('/listings/:id/checkout', globals.checkAuthentication, function(req,
 			res.locals.type = "warning";
 			return res.redirect('/');
 		} else {
-			if(listing.winner == req.user.username) {
+			if(listing.winner.equals(req.user._id)) {
 				listings.findOneAndUpdate({_id: monk.id(listing._id)}, {$set: {paid: true}}).then((updatedDoc) => {return updatedDoc;});
 				res.locals.info = "Item Paid!";
 				res.locals.type = "success";
