@@ -3,6 +3,49 @@ $(document).ready(function() {
 	var elem = $("#data")[0];
 	var listing = JSON.parse(elem.dataset.listing);
 
+	$("#ship").click(async function(){
+		console.log("show clicked");
+		$(this).text("Shipped!");
+		$(this).attr("disabled", "true");
+
+		await $.ajax({
+			url: '/listings/'+listing._id+"?_method=PUT",
+			method: "POST",
+			data:{
+				"title": listing.title,
+				"category": listing.category,
+				"condition": listing.condition,
+				"description": listing.description,
+				"shipped" : 1
+			},
+			dataType: 'json'
+		}).done(function(data) {
+			console.log(data);
+		}).catch(function(err){
+			console.log(err);
+		});
+
+		await $.ajax({
+			url: '/api/users/notifications',
+			method: "POST",
+			data: {
+				account: listing.winner,
+				message: "Your purchase ("+listing.title+") has been shipped!",
+				dismissed : 0,
+				redirect: "/listings/"+listing._id
+			},
+			dataType: 'json'
+		}).done(function(data) {
+			console.log(data);
+		}).catch(function(err){
+			console.log(err);
+		});
+
+		var font = 14;
+		var str = "Shipment Successful!";
+		toastr.success('<div style="font-size:'+font+'pt;">'+str+'</div>');
+	});
+
 	$("#pay").click(async function(){
 		console.log("show clicked");
 		$(this).attr("value","Paid!");
@@ -36,7 +79,7 @@ $(document).ready(function() {
 		var font = 14;
 		var str = "Payment Successful!";
 		toastr.success('<div style="font-size:'+font+'pt;">'+str+'</div>');
-	})
+	});
 
 	if($('#bidding-form').length > 0) {
 		$('#bidding-form').submit((event) => {
