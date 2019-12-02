@@ -18,7 +18,7 @@ $(document).ready(() => {
 
   getNotifications = async function()
   {
-    var element = document.getElementById('data');
+    var element = document.getElementById('nav-data');
     if(!element.dataset.user)
       return [];
     var user = JSON.parse(element.dataset.user);

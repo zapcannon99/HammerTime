@@ -19,14 +19,18 @@ data-listing="<%= JSON.stringify(listing) %>">
 		</div>
 	</div>
 	<div class="col col-7 parent border-left pad">
-		<div class="row">
+		<div class="row vspace">
 			<div class="title"><%= listing.title %></div>
 		</div>
+		<div class="row vspace">
+			<div><strong>Sold for:</strong><%= listing.finalBid %></div>
+		</div>
 
-		<div class = "row border-bottom">
+
+		<div class = "row">
 			<div>
 				<form action="/listings/<%= listing._id %>/checkout" method="POST">
-					<input type='submit' value='Submit Payment (via magic)'>
+					<input id="pay" class="btn btn-primary" value='Submit Payment (via magic)'>
 				</form>
 			</div>
 		</div>
