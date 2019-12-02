@@ -43,7 +43,6 @@ router.get('/listings', function(req, res, next){
 				return null;
 			}
 		});
-		console.log("Why is this not working");
 		var possibleBids = await bids.find({_id: {$in: lastBidIDs}}).then((docs) => {return docs;});
 
 		lastBidIDs.forEach((id, index) => {
@@ -229,11 +228,13 @@ router.get('/listings/:id/checkout', globals.checkAuthentication, function(req, 
 		if(typeof(listing.winner) == "undefined") {
 			res.locals.info = "This doesn't belong to you!";
 			res.locals.type = "warning";
+			console.log("somebody doesn't belong here");
 			return res.redirect('/');
 		} else {
-			if(listing.winner == req.user.username) {
+			if(listing.winner.equals(req.user._id)) {
 				return res.render('listing/checkout', {user: req.user, listing: listing});
 			} else {
+				console.log('but why?');
 				res.locals.info = "This doesn't belong to you!";
 				res.locals.type = "warning";
 				return res.redirect('/');
@@ -251,7 +252,7 @@ router.post('/listings/:id/checkout', globals.checkAuthentication, function(req,
 			res.locals.type = "warning";
 			return res.redirect('/');
 		} else {
-			if(listing.winner == req.user.username) {
+			if(listing.winner.equals(req.user._id)) {
 				listings.findOneAndUpdate({_id: monk.id(listing._id)}, {$set: {paid: true}}).then((updatedDoc) => {return updatedDoc;});
 				res.locals.info = "Item Paid!";
 				res.locals.type = "success";

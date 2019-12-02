@@ -36,7 +36,8 @@ $(document).ready(() => {
 
   makeNotification = function(x){
     var element= "";
-    element += '<div class="dropdown-item" style="border-bottom:1px solid grey" href="/users/account">\n';//make it link to the payment option
+    element += '<a href="' + x.redirect + '" >\n';
+    element += '<div class="dropdown-item" style="border-bottom:1px solid grey" >\n';//make it link to the payment option
     element += '<div style="display:flex; flex-direction:across; align-items:center">\n';
     element += '<div class=""><div class="notify-img"><i class="fa fa-bullhorn" style="font-size: 26px; margin-right:10px;"></i></div></div>\n';
     element += '<div style="white-space:normal">\n';
@@ -45,8 +46,9 @@ $(document).ready(() => {
     element += '<i class="fa fa-times dismiss" style="align-self:flex-start" data-notification=\''+x._id+'\'></i>\n';
     element += '</div>\n';
     element += '</div>\n';
+    element += '</a>\n';
     var elem = $($.parseHTML(element));
-    elem.click(dismiss);
+    //elem.click(dismiss);
     elem.find($(".dismiss")).click(function(){
       $(this).remove();
     })
@@ -77,6 +79,6 @@ $(document).ready(() => {
     if(adj){
       clearInterval(x);
     }
-  }, 1000);
+  }, 30000);
 
 });
