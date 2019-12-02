@@ -45,4 +45,24 @@ router.post('/notifications/:id', function (req, res) {
 
 });
 
+router.post('/notifications', function (req, res) {
+
+	var notification = {
+		account: monk.id(req.body.account),
+		message: req.body.message,
+		dismissed: parseInt(req.body.dismissed+"")
+	};
+
+	var collection = db.get("notifications");
+	collection.insert(notification)
+	.then((doc) => {
+		console.log(doc);
+		console.log("success");
+		return res.json({success:true});
+	}).catch((err) => {
+		console.log(err);
+	});
+
+});
+
 module.exports = router;

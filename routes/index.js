@@ -94,7 +94,7 @@ router.get('/listings', function(req, res, next){
 // });
 
 router.get('/listings/new', globals.checkAuthentication, function(req, res, next){
-	res.render('listing/form');
+	res.render('listing/form', {user: req.user});
 });
 
 router.get('/listings/:id', function(req, res, next){
@@ -255,7 +255,7 @@ router.post('/listings/:id/checkout', globals.checkAuthentication, function(req,
 				listings.findOneAndUpdate({_id: monk.id(listing._id)}, {$set: {paid: true}}).then((updatedDoc) => {return updatedDoc;});
 				res.locals.info = "Item Paid!";
 				res.locals.type = "success";
-				return res.redirect('/');
+				return res.json({success:true});
 			} else {
 				res.locals.info = "This doesn't belong to you!";
 				res.locals.type = "warning";

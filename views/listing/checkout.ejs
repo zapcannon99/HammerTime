@@ -30,7 +30,7 @@ data-listing="<%= JSON.stringify(listing) %>">
 		<div class = "row">
 			<div>
 				<form action="/listings/<%= listing._id %>/checkout" method="POST">
-					<input class="form-control" type='submit' value='Submit Payment (via magic)'>
+					<input id="pay" class="btn btn-primary" value='Submit Payment (via magic)'>
 				</form>
 			</div>
 		</div>
