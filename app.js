@@ -138,7 +138,8 @@ cron.schedule("* * * * *", function() {
 					account: endedListing.owner,
 					message: "Sorry! Your item ("+endedListing.title+") didn't sell!",
 					redirect: "/listings/" + endedListing._id,
-					dismissed: 0
+					dismissed: 0,
+					ack: 0,
 				}
 				promises.push(notifications.insert(notification).then(() => {return 1;}));
 			} else {
@@ -146,13 +147,15 @@ cron.schedule("* * * * *", function() {
 					account: endedListing.owner,
 					message: "Congratulations! Your item ("+endedListing.title+") sold for " + endedListing.finalBid,
 					redirect: "/listings/" + endedListing._id,
-					dismissed: 0
+					dismissed: 0,
+					ack: 0,
 				}
 				var winnerNotification = {
 					account: endedListing.winner,
 					message:  "Congratulations! Your bid on ("+ endedListing.title+") won the HammerTime!",
-					redirect: "/listings/" + endedListing._id + "/checkout",
-					dismissed: 0
+					redirect: "/listings/" + endedListing._id,
+					dismissed: 0,
+					ack: 0,
 				}
 				console.log(ownerNotification);
 				console.log(winnerNotification);

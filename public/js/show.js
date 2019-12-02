@@ -32,6 +32,7 @@ $(document).ready(function() {
 				account: listing.winner,
 				message: "Your purchase ("+listing.title+") has been shipped!",
 				dismissed : 0,
+				ack: 0,
 				redirect: "/listings/"+listing._id
 			},
 			dataType: 'json'
@@ -55,7 +56,7 @@ $(document).ready(function() {
 			url: '/listings/'+listing._id+'/checkout',
 			method: "POST",
 			data: {
-				"dismissed" : 1
+				"paid" : 1,
 			},
 			dataType: 'json'
 		}).done(function(data) {
@@ -69,6 +70,7 @@ $(document).ready(function() {
 				account: listing.owner,
 				message: "Your item ("+listing.title+") has been paid!",
 				dismissed : 0,
+				ack: 0,
 				redirect: "/listings/"+listing._id
 			},
 			dataType: 'json'

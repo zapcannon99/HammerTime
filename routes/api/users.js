@@ -29,15 +29,16 @@ router.get('/notifications/:id', function (req, res) {
 router.post('/notifications/:id', function (req, res) {
 
 	var notification = {
-		account: req.body.account,
-		message: req.body.message,
-		dismissed: req.body.dismissed
+		dismissed: req.body.dismissed,
+		ack: req.body.ack,
 	};
+	console.log(req.body);
 
 	var collection = db.get("notifications");
-	collection.findOneAndUpdate({_id: monk.id(req.params.id)}, {$set: {dismissed: 1}})
+	collection.findOneAndUpdate({_id: monk.id(req.params.id)}, {$set: notification})
 	.then((doc) => {
-		req.listing = doc;
+		console.log(doc)
+		//req.listing = doc;
 		return res.json("success");
 	}).catch((err) => {
 		console.log(err);
@@ -50,7 +51,9 @@ router.post('/notifications', function (req, res) {
 	var notification = {
 		account: monk.id(req.body.account),
 		message: req.body.message,
-		dismissed: parseInt(req.body.dismissed+"")
+		dismissed: parseInt(req.body.dismissed+""),
+		ack: parseInt(req.body.ack+""),
+		redirect: req.body.redirect,
 	};
 
 	var collection = db.get("notifications");

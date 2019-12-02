@@ -24,7 +24,9 @@
 			</li>
 			<li class="nav-item dropdown flexdown hspace">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fa fa-bell big" aria-hidden="true"></i>
+          <i class="fa fa-bell big relative" aria-hidden="true">
+						<div id="dot" class="dot"></div>
+					</i>
         </a>
         <div id="notification-container" class="dropdown-menu" aria-labelledby="navbarDropdown" style="position:absolute; left:-10px;width: 230px;max-height:200px; overflow-y:scroll">
         </div>
@@ -34,6 +36,7 @@
           <i class="fa fa-user big" aria-hidden="true">
 						<%= user.username %>
 					</i>
+
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="position:absolute">
           <a class="dropdown-item" href="/users/account">Account</a>

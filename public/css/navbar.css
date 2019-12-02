@@ -2,8 +2,50 @@
   margin-right:10px;
 }
 
+.relative{
+  position: relative;
+}
+
 .flex-across{
 display: flex;
 flex-direction:row;
 flex-wrap: wrap;
 }
+
+.dot {
+  height: 9px;
+  width: 9px;
+  background-color: red;
+  border-radius: 50%;
+  text-align: center;
+  display: inline-block;
+  position:absolute;
+  left:9px;
+  top: 18px;
+  display:none;
+}
+
+.flexdown{
+  display:flex!important;
+  flex-direction: down!important;
+  align-items:center;
+}
+
+.big{
+  font-size:20pt;
+}
+
+.nopad{
+  padding:0!important;
+}
+
+.hspace{
+  margin-right:10px;
+}
+
+.match-color{
+  color:#9D9D9D;
+}
+
+.dismiss { transition: all .07s ease-in-out; }
+.dismiss:hover { transform: scale(1.1); }

@@ -94,6 +94,3 @@ flex-wrap: wrap;
 
 .grow { transition: all .07s ease-in-out; }
 .grow:hover { transform: scale(1.03); }
-
-.dismiss { transition: all .07s ease-in-out; }
-.dismiss:hover { transform: scale(1.1); }
