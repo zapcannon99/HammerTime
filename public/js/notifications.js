@@ -126,6 +126,6 @@ $(document).ready(() => {
 
   var x = setInterval(function() {
     setNotifications();
-  }, 30000);
+  }, 1000);
 
 });

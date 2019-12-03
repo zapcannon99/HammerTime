@@ -15,7 +15,7 @@ $(document).ready(() => {
 			var expire = Date.parse(listings[i].endTime);
 			if(now < expire && listings[i].deleted == false)
 			{
-				if(match(listings[i].title, searchTerm))
+				if(match(listings[i].title.toUpperCase(), searchTerm.toUpperCase()))
 				{
 					if(category == "" || category == listings[i].category)
 						filtered.push(listings[i]);
