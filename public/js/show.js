@@ -4,7 +4,6 @@ $(document).ready(function() {
 	var listing = JSON.parse(elem.dataset.listing);
 
 	$("#ship").click(async function(){
-		console.log("show clicked");
 		$(this).text("Shipped!");
 		$(this).attr("disabled", "true");
 
@@ -20,7 +19,6 @@ $(document).ready(function() {
 			},
 			dataType: 'json'
 		}).done(function(data) {
-			console.log(data);
 		}).catch(function(err){
 			console.log(err);
 		});
@@ -37,7 +35,6 @@ $(document).ready(function() {
 			},
 			dataType: 'json'
 		}).done(function(data) {
-			console.log(data);
 		}).catch(function(err){
 			console.log(err);
 		});
@@ -48,7 +45,6 @@ $(document).ready(function() {
 	});
 
 	$("#pay").click(async function(){
-		console.log("show clicked");
 		$(this).attr("value","Paid!");
 		$(this).attr("disabled", "true");
 
@@ -60,7 +56,6 @@ $(document).ready(function() {
 			},
 			dataType: 'json'
 		}).done(function(data) {
-			console.log(data);
 		});
 
 		await $.ajax({
@@ -75,7 +70,6 @@ $(document).ready(function() {
 			},
 			dataType: 'json'
 		}).done(function(data) {
-			console.log(data);
 		});
 
 		var font = 14;

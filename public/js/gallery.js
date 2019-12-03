@@ -50,7 +50,6 @@ $(document).ready(() => {
 	});
 
 	$('#photo-form').submit(function(event) {
-		console.log("HWELLLLOOOOOO");
 		var formData = new FormData(this);
 		$.ajax({
 			method: "POST",

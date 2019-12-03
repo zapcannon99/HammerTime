@@ -1,6 +1,5 @@
 $(document).ready(() => {
   dismiss = async function(notification){
-    console.log("dismissing");
     await $.ajax({
       url: '/api/users/notifications/'+notification._id,
       method: "POST",
@@ -10,13 +9,10 @@ $(document).ready(() => {
       },
       dataType: 'json'
     }).done(function(data) {
-      console.log(data);
     });
   }
 
   ack = async function(notification){
-        console.log(notification._id);
-    console.log("acking");
     await $.ajax({
       url: '/api/users/notifications/'+notification._id,
       method: "POST",
@@ -26,7 +22,6 @@ $(document).ready(() => {
       },
       dataType: 'json'
     }).done(function(data) {
-      console.log(data);
     });
   }
 
@@ -81,14 +76,10 @@ $(document).ready(() => {
     element += '</div>';
     element += '</div>\n';
     element += '</div>\n';
-    //console.log(element);
     var elem = $($.parseHTML(element));
     var dis = $(elem.find(".dismiss")[0]);
-    console.log(dis);
     if(dis)
       dis.on("click", function(){
-        console.log("click 1");
-        console.log($(this));
         dismiss(x);
         $(this).parent().parent().remove();
         event.stopPropagation();
@@ -119,7 +110,6 @@ $(document).ready(() => {
     }
     for(var i = 0;i<notifications.length;i++)
     {
-        console.log(notifications[i]);
         container.append(makeNotification(notifications[i], i != notifications.length - 1));
         if(!notifications[i].ack)
           allAcked = false;

@@ -119,7 +119,6 @@ cron.schedule("* * * * *", function() {
 						var winningUser = winningBid.user;
 						listing.winner = winningUser;
 						listing.finalBid = winningBid.amount;
-						console.log("tolo" + winningBid);
 						return listing;
 					})()
 				} else {
@@ -132,7 +131,6 @@ cron.schedule("* * * * *", function() {
 		console.log(endedListings);
 		promises = [];
 		endedListings.forEach(endedListing => {
-			console.log("ended listing is "+endedListing);
 			if(endedListing.winner == undefined) {
 				var notification = {
 					account: endedListing.owner,
@@ -157,8 +155,6 @@ cron.schedule("* * * * *", function() {
 					dismissed: 0,
 					ack: 0,
 				}
-				console.log(ownerNotification);
-				console.log(winnerNotification);
 				promises.push(notifications.insert(ownerNotification).then(() => {return 1;}));
 				promises.push(notifications.insert(winnerNotification).then(() => {return 1;}));
 				promises.push(listings.findOneAndUpdate({_id: monk.id(endedListing._id)}, {$set: {winner: endedListing.winner, finalBid: endedListing.finalBid}}).then(() => {return 1;}));

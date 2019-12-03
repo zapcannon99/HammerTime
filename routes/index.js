@@ -47,7 +47,6 @@ router.get('/listings', function(req, res, next){
 
 		lastBidIDs.forEach((id, index) => {
 			var currentBid = 0;
-			console.log("ID: " + id);
 			if(id != null) {
 				var bid = possibleBids.find(({_id}) => {return _id.toString() == id.toString();});
 				currentBid = bid.amount;
@@ -62,46 +61,13 @@ router.get('/listings', function(req, res, next){
 
 });
 
-// router.get('/listings/search', function(req, res, next){
-// 	var search = {};
-
-// 	if(req.query.query != ""){
-// 		console.log("Query: " + req.query.query);
-// 		var replace = req.query.query;
-// 		var re = new RegExp(replace,"g");
-// 		search.title = re;
-// 	}
-
-// 	if(req.query.category != ""){
-// 		console.log("Category search: " + req.query.category);
-// 		search.category = req.query.category;
-// 	}
-
-// 	var collection = db.get("listings");
-
-//     if(req.query.query == undefined && req.query.category == undefined) {
-// 		collection.find()
-// 		.then((docs) => {
-// 			res.render('index', {title: 'HammerTime', listings: docs, user: req.user, query: "", filter: ""});
-// 		}).then(() => db.close());
-// 	} else {
-// 		collection.find(search)
-// 		.then((docs) => {
-// 			res.render('index', {title: 'HammerTime', listings: docs, user: req.user, query: req.query.query, filter: req.query.category});
-// 		}).then(() => db.close());
-// 	}
-// });
-
 router.get('/listings/new', globals.checkAuthentication, function(req, res, next){
 	res.render('listing/form', {user: req.user});
 });
 
 router.get('/listings/:id', function(req, res, next){
 	// grab the listing with id id
-	console.log("GET REQUEST AA;SLKDJF;ASJDFAISJGPAOIJDG");
-	console.log(req.listing);
 	if(typeof(req.listing) == "undefined"){
-		console.log(req.params.id);
 		var collection = db.get("listings");
 
 		collection.findOne({_id: monk.id(req.params.id)})
@@ -156,7 +122,6 @@ router.post('/listings', globals.checkAuthentication, upload.array('pictures', 1
 	var collection = db.get("listings");
 	collection.insert(listing)
 	.then((doc) => {
-		console.log(doc._id + "inserted");
 		req.listing = doc;
 		res.redirect('/listings/' + doc._id);
 	}).catch((err) => {
@@ -165,10 +130,8 @@ router.post('/listings', globals.checkAuthentication, upload.array('pictures', 1
 });
 
 router.get('/listings/:id/edit', globals.checkOwnership, globals.checkAuthentication, function(req, res, next){
-	// grab the listing with id id
-	console.log("ok we made it here ASDFASDF");
+
 	if(typeof(req.listing) == "undefined"){
-		console.log(req.params.id);
 		var collection = db.get("listings");
 
 		collection.findOne({_id: monk.id(req.params.id)})
@@ -205,8 +168,6 @@ router.put('/listings/:id', globals.checkOwnership, globals.checkAuthentication,
 		shipped: req.body.shipped,
 	}
 
-	console.log(updates);
-
 	var collection = db.get('listings');
 	collection.findOneAndUpdate({_id: monk.id(req.params.id)}, {$set: updates})
 	.then((updatedDoc) => {
@@ -241,7 +202,6 @@ router.get('/listings/:id/checkout', globals.checkAuthentication, function(req, 
 			if(listing.winner.equals(req.user._id)) {
 				return res.render('listing/checkout', {user: req.user, listing: listing});
 			} else {
-				console.log('but why?');
 				res.locals.info = "This doesn't belong to you!";
 				res.locals.type = "warning";
 				return res.redirect('/listings');

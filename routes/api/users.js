@@ -32,16 +32,13 @@ router.post('/notifications/:id', function (req, res) {
 		dismissed: req.body.dismissed,
 		ack: req.body.ack,
 	};
-	console.log(req.body);
 
 	var collection = db.get("notifications");
 	collection.findOneAndUpdate({_id: monk.id(req.params.id)}, {$set: notification})
 	.then((doc) => {
-		console.log(doc)
 		//req.listing = doc;
 		return res.json("success");
 	}).catch((err) => {
-		console.log(err);
 	});
 
 });
@@ -59,11 +56,8 @@ router.post('/notifications', function (req, res) {
 	var collection = db.get("notifications");
 	collection.insert(notification)
 	.then((doc) => {
-		console.log(doc);
-		console.log("success");
 		return res.json({success:true});
 	}).catch((err) => {
-		console.log(err);
 	});
 
 });
