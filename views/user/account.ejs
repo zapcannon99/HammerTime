@@ -5,7 +5,7 @@
 <h1>Account</h1>
 
 <h2>Bidding History</h2>
-<table>
+<table class="table">
 	<tr>
 		<th>Date and Time</th>
 		<th>Listing Title</th>
@@ -16,6 +16,110 @@
 			<td><%= (new Date(bid.timestamp)).toString() %></td>
 			<td><a href="/listings/<%= bid.listingID %>"><%= listings.find(element => element._id == bid.listingID).title %></a></td>
 			<td><%= bid.amount %></td>
+		</tr>
+	<% }); %>
+</table>
+
+<h2>Listing History</h2>
+<table class="table">
+	<tr>
+		<th>Title</th>
+		<th>End Time</th>
+		<th>Status</th>
+		<th>Paid</th>
+		<th>Shipped</th>
+	</tr>
+	<% pastListings.forEach((listing) => { %>
+		<% let status = listing.ended? (listing.winner?"Sold for "+ listing.finalBid:"No Bids") : "ongoing";%>
+		<% let paid = status.charAt(0)=='S'? listing.paid: "N/A";%>
+		<% let shipped = status.charAt(0)=='S'? (listing.shipped==true? "shipped": "not" ): "N/A";%>
+		<tr>
+			<td><a href="/listings/<%= listing._id %>"><%= listing.title %></a></td>
+			<td><%= (new Date(listing.endTime)).toString() %></td>
+			<td><%= status %></td>
+			<td>
+				<% if(paid == true){%>
+					<i class="fa fa-check" style="color: green; font-size: 16pt"></i>
+				<%}%>
+				<% if(paid == false){%>
+					<i class="fa fa-times" style="color: red; font-size: 16pt;"></i>
+				<%}%>
+				<% if(paid == "N/A"){%>
+					N/A
+				<%}%>
+			</td>
+			<td>
+				<% if(shipped == "shipped"){%>
+					<i class="fa fa-check" style="color: green; font-size: 16pt"></i>
+				<%}%>
+				<% if(shipped == "not"){%>
+					<i class="fa fa-times" style="color: red; font-size: 16pt;"></i>
+				<%}%>
+				<% if(shipped == "N/A"){%>
+					N/A
+				<%}%>
+			</td>
+		</tr>
+	<% }); %>
+</table>
+
+<h2>Past Notifications:</h2>
+<table class="table">
+	<tr>
+		<th>Message</th>
+	</tr>
+	<% pastNotifications.forEach((notification) => { %>
+		<tr>
+			<td>
+				<% if(notification.redirect){%>
+					<a href="<%= notification.redirect %>"><%= notification.message %></a>
+				<%}else{%>
+					<%= notification.message %>
+				<%}%>
+			</td>
+		</tr>
+	<% }); %>
+</table>
+
+<h2>Bid Wins</h2>
+<table class="table">
+	<tr>
+		<th>Title</th>
+		<th>End Time</th>
+		<th>Status</th>
+		<th>Paid</th>
+		<th>Shipped</th>
+	</tr>
+	<% wins.forEach((listing) => { %>
+		<% let status = listing.ended? (listing.winner?"Sold for "+ listing.finalBid:"No Bids") : "ongoing";%>
+		<% let paid = status.charAt(0)=='S'? listing.paid: "N/A";%>
+		<% let shipped = status.charAt(0)=='S'? (listing.shipped==true? "shipped": "not" ): "N/A";%>
+		<tr>
+			<td><a href="/listings/<%= listing._id %>"><%= listing.title %></a></td>
+			<td><%= (new Date(listing.endTime)).toString() %></td>
+			<td><%= status %></td>
+			<td>
+				<% if(paid == true){%>
+					<i class="fa fa-check" style="color: green; font-size: 16pt"></i>
+				<%}%>
+				<% if(paid == false){%>
+					<i class="fa fa-times" style="color: red; font-size: 16pt;"></i>
+				<%}%>
+				<% if(paid == "N/A"){%>
+					N/A
+				<%}%>
+			</td>
+			<td>
+				<% if(shipped == "shipped"){%>
+					<i class="fa fa-check" style="color: green; font-size: 16pt"></i>
+				<%}%>
+				<% if(shipped == "not"){%>
+					<i class="fa fa-times" style="color: red; font-size: 16pt;"></i>
+				<%}%>
+				<% if(shipped == "N/A"){%>
+					N/A
+				<%}%>
+			</td>
 		</tr>
 	<% }); %>
 </table>

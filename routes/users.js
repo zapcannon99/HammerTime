@@ -60,14 +60,37 @@ router.get('/logout', function(req, res) {
 
 router.get('/account', globals.checkAuthentication, function(req, res) {
 	var pastBids;
+	var pastListings;
+	var pastNotifications;
+	var wins;
 	(async function() {
 		var bids = await db.get('bids');
 		var listings = await db.get('listings');
 		pastBids = await bids.find({user: req.user._id});
 		pastBids.reverse();
+
+		pastListings = await listings.find({owner: req.user._id});
+		pastListings.reverse();
+
+		var notifications = await db.get('notifications');
+		pastNotifications = await notifications.find({account: monk.id(req.user._id)}).then((docs) => {return docs;});
+		pastNotifications.reverse();
+
+		wins = await listings.find({winner: monk.id(req.user._id)});
+		wins.reverse();
+
 		var listingIDs = await pastBids.map(bid => bid.listingID);
-		var listings = await listings.find({_id: {$in: listingIDs.map(id => monk.id(id))}}).then((docs) => {return docs;})
-		return res.render('user/account', {user: req.user, pastBids: pastBids, listings: listings});
+		var listings = await listings.find({_id: {$in: listingIDs.map(id => monk.id(id))}}).then((docs) => {return docs;});
+		//pastListings.reverse();
+
+		//var past = await listings.find({}).then((docs) => {return docs;}).catch(function(err){console.log(err);});
+		//pastListings.reverse();
+
+		//var notifications = await db.get('notifications');
+		//pastNotifications = await notifications.find({account: monk.id(req.user._id)}).then((docs) => {return docs;});
+		//pastNotifications.reverse();
+
+		return res.render('user/account', {user: req.user, pastBids: pastBids, pastListings: pastListings, pastNotifications:pastNotifications, listings: listings, wins: wins});
 	})()
 });
 

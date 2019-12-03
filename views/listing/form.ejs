@@ -13,14 +13,14 @@
 			<label for="category">Category: </label>
 			<select class="form-control" id="category" name="category">
 				<option></option>
-				<% var categories = ['Apparel', 'Beauty', 'Books', 'Camera', 'Cell Phones', 'Collectables', 'Jewelry', 'Fine Art', 'Handmade', 'Health', 'Music', 'Music Instruments', 'Office', 'Outdoors', 'Software', 'Video Games', 'Board Games', 'Toys', 'Sports', 'Tools', 'Videos']; 
+				<% var categories = ['Apparel', 'Beauty', 'Books', 'Camera', 'Cell Phones', 'Collectables', 'Jewelry', 'Fine Art', 'Handmade', 'Health', 'Music', 'Music Instruments', 'Office', 'Outdoors', 'Software', 'Video Games', 'Board Games', 'Toys', 'Sports', 'Tools', 'Videos'];
 				categories.sort();
 				categories.forEach((category) => { %>
 					<option value="<%= category %>"><%= category %></option>
 				<% }) %>
 			</select>
 		</div>
-		
+
 		<div>
 			<label for="condition">Condition: </label>
 			<select class="form-control" id="condition" name="condition">
@@ -42,7 +42,7 @@
 			<input type="number" class="form-control" name="bidStart" />
 
 			<label for="endTime">End Date and Time</label>
-			<input type="datetime-local" id="endTime" name="endTime"/>
+			<input type="datetime-local" class="form-control" id="endTime" name="endTime"/>
 		</div>
 		<!--
 		<div>

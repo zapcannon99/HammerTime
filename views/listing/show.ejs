@@ -72,9 +72,15 @@ data-listing="<%= JSON.stringify(listing) %>">
 		<% } %>
 
 		<% if(owned && listing.paid) { %>
+			<% let text = listing.shipped == true? "Shipped!": "Ship (via magic)"%>
 			<div class="row">
 				<form action="javascript:void(0);" method="">
-					<button id="ship" type="submit" class="btn btn-primary"<%if(listing.shipped){%> disabled <%}%>> <%if(!listing.shipped){%>Ship (via magic)<%}else{%>Shipped!<%}%> </button>
+					<button id="ship" type="submit" class="btn btn-primary"
+						<%if(listing.shipped == true){%>
+							disabled
+						<%}%>>
+						<%= text %>
+					</button>
 				</form>
 			</div>
 		<% } %>
