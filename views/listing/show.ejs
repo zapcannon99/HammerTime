@@ -50,7 +50,7 @@ data-listing="<%= JSON.stringify(listing) %>">
 							<% let now = Date.now(); %>
 							<% let expired = now > end; %>
 							<% if(user && !owned && !expired) {%>
-							<div class="big"><strong>$</strong></div>
+							<div id="money" class="big"><strong>$</strong></div>
 							<input type='number' class='col form-control' id='new-bid' name='newBid' min=0 />
 							<% } %>
 						</div>

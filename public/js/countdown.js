@@ -20,15 +20,15 @@ $(document).ready(() => {
 				elem.innerHTML = "SOLD";
 				$("#countdown").removeClass("yellow");
 				$("#countdown").addClass("red");
-				$("#bid").remove();
-				$("#pic").remove();
+				$("#new-bid").remove();
+				$("#submit-bid").remove();
 				$("#money").remove();
 				$("#countdown").toggleClass("hspace");
 				$("#border").css("border", "2px solid red");
 				return true;
 			}
 		}
-		
+
 
 		if(hours < 1)
 		{

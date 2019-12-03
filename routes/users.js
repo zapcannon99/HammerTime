@@ -13,13 +13,13 @@ router.get('/', function (req, res) {
 });
 
 router.get('/register', function(req, res) {
-	res.render('user/register', { });
+	res.render('user/register', {user: req.user});
 });
 
 router.post('/register', function(req, res) {
 	Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
 		if (err) {
-			return res.render("user/register", {info: "Sorry. That username already exists. Try again."});
+			return res.render("user/register", {user: req.user, info: "Sorry. That username already exists. Try again."});
 		}
 
 		passport.authenticate('local')(req, res, function () {
@@ -55,7 +55,7 @@ router.post('/login', passport.authenticate('local', {failureRedirect: '/users/l
 
 router.get('/logout', function(req, res) {
 	req.logout();
-	res.redirect('/');
+	res.redirect('/listings');
 });
 
 router.get('/account', globals.checkAuthentication, function(req, res) {

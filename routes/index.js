@@ -224,7 +224,7 @@ router.delete('/listings/:id', globals.checkOwnership, globals.checkAuthenticati
 	collection.findOneAndUpdate({_id: monk.id(req.params.id)}, {$set: {deleted: true}})
 	.then((updatedDoc) => {
 		res.locals.info = "Item removed from available listings.";
-		res.redirect('/');
+		res.redirect('/listings');
 	}).then(() => db.close());
 });
 
@@ -236,7 +236,7 @@ router.get('/listings/:id/checkout', globals.checkAuthentication, function(req, 
 			res.locals.info = "This doesn't belong to you!";
 			res.locals.type = "warning";
 			console.log("somebody doesn't belong here");
-			return res.redirect('/');
+			return res.redirect('/Listings');
 		} else {
 			if(listing.winner.equals(req.user._id)) {
 				return res.render('listing/checkout', {user: req.user, listing: listing});
@@ -244,7 +244,7 @@ router.get('/listings/:id/checkout', globals.checkAuthentication, function(req, 
 				console.log('but why?');
 				res.locals.info = "This doesn't belong to you!";
 				res.locals.type = "warning";
-				return res.redirect('/');
+				return res.redirect('/listings');
 			}
 		}
 	})()
