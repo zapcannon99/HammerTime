@@ -22,7 +22,7 @@ router.get('/notifications/:id', function (req, res) {
 	var notifications = db.get("notifications");
 	notifications.find({account: monk.id(userId)})
 	.then((doc) => {
-		res.json(doc);
+		res.json(doc.reverse());
 	}).catch((err) => {console.log(err)});
 });
 

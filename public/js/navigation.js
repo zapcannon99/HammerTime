@@ -2,7 +2,7 @@ $(document).ready(() => {
 
 	var page = document.getElementById('data').dataset.page;
 	var listings = JSON.parse(document.getElementById('data').dataset.listings);
-	var NUM_PER_PAGE = 3;//WE CAN CHANGE THIS TO WHATEVER WE WANT
+	var NUM_PER_PAGE = 4;//WE CAN CHANGE THIS TO WHATEVER WE WANT
 	var filtered = JSON.parse(JSON.stringify(listings));
 
 	filter = function(){
